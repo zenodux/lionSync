@@ -1,0 +1,133 @@
+<html>
+<head>
+<title>LION Sync</title>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+<script src="persistence.js" type="application/javascript"></script>
+<script src="persistence.store.sql.js" type="application/javascript"></script>
+<script src="persistence.store.websql.js" type="application/javascript"></script>
+<script src="persistence.sync.js" type="application/javascript"></script>
+
+<script type="text/javascript"> 
+var db = openDatabase('lion2', '1.0', 'Lion Local DB', 2 * 1024 * 1024);
+persistence.store.websql.config(persistence, 'lion2', 'Lion Local DB', 5 * 1024 * 1024);
+
+db.transaction(function(tx){
+	//tx.executeSql('drop table village');
+  //tx.executeSql('drop table district');
+  //tx.executeSql('drop table groupVillageHead');
+  //tx.executeSql('drop table sqlite_sequence');
+  //tx.executeSql('drop table tradAuth');
+	//tx.executeSql('delete from district where id = "89BBA8BE7F9C466C82E7A3F76B571268"');
+});
+
+  ////////////
+var village = persistence.define('village', {
+  name: "TEXT",
+  population: "INT",
+  numLatrines: "INT",
+  datMod: "DATE"
+});
+persistence.schemaSync();
+village.enableSync('http://192.168.1.15:1337/villageSync');
+
+//var district = new District({name: "Salima",population: "350000"});
+//persistence.add(district);	
+//var ta = new TraditionalAuthority({name: "Ndindi"});
+//persistence.add(ta);
+//ta = new TraditionalAuthority({name: "Kambwiri"});
+//persistence.add(ta);
+//ta = new TraditionalAuthority({name: "Pemba"});
+//persistence.add(ta);
+persistence.flush();
+
+function mySuccess(){
+  //alert('success!');
+  console.log("sync success!");
+}
+
+function myFail(){
+  //alert('fail!');
+  console.log("sync failure!");
+}
+
+function myConflict(conflict){
+  //alert('fail!');
+  console.log("sync confict! " + conflict);
+}
+
+function preferLocalConflictHandler(conflicts, updatesToPush, callback) {
+  console.log("sync confict! " + conflicts);
+  conflicts.forEach(function(conflict) {
+      var update = {id: conflict.local.id};
+      conflict.properties.forEach(function(p) {
+          update[p] = conflict.local._data[p];
+        });
+      updatesToPush.push(update);
+    });
+  callback();
+}
+
+function preferRemoteConflictHandler(conflicts, updatesToPush, callback) {
+  conflicts.forEach(function(conflicts) {
+      conflict.properties.forEach(function(p) {
+          conflict.local[p] = conflict.remote[p];
+        });
+    });
+  persistence.flush(callback);
+}
+
+function dummyConflictHandler(conflicts, updatesToPush, callback) {
+  persistence.flush(callback);
+}
+
+
+
+function addVillage(){
+  var v = new village();
+  v.name = document.getElementById("villageName").value;
+  v.population = document.getElementById("villagePopulation").value;
+  v.latrines = document.getElementById("villageNumLatrines").value;
+  v.datMod = new Date();
+  persistence.add(v);
+}
+
+function updateVillage(){
+  var opt = document.getElementById("village");
+  //var id = opt.children[opt.selectedIndex]. 
+  var v = village(opt.children[opt.selectedIndex]);
+  v.name = document.getElementById("villageName").value;
+  v.population = document.getElementById("villagePopulation").value;
+  v.latrines = document.getElementById("villageNumLatrines").value;
+  v.datMod  = new Date();
+  persistence.add(v);
+}
+
+
+
+//EntityName.syncAll(conflictHandler, successCallback, errorCallback)
+//successCallback and errorCallback are optional. successCallback occurs after a
+//successful sync errorCallback occurs on error (I.E. a non-200 response code).
+
+//village.syncAll(persistence.sync.preferLocalConflictHandler, function(){alert('success!')}, function(){alert('error!')} );
+//village.syncAll( preferLocalConflictHandler, mySuccess(), myFail() );
+village.syncAll( dummyConflictHandler(), mySuccess(), myFail() );
+
+
+</script>
+</head>
+<body>
+<h1>LION Sync</h1>
+<p>(Local Information Offline Network)
+<!-- <p>(Formerly ZebraSync - Sync Your Stripes! Let Your Data Be Herd!) -->
+<form id="form1">
+	<h2>Village</h2>
+	<select id="village">
+    <option id="villageAdd" value="add" label="add a village">add a village</option>
+  </select>
+  <input type="text" id="villageName" length = "10" placeholder="name">
+	<input type="text" id="villagePopulation" length = "10" placeholder="population">
+  <input type="text" id="villageNumLatrines" length = "10" placeholder="# of latrines">
+</form>
+
+</body>
+</html>
