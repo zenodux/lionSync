@@ -166,7 +166,7 @@ app.get('/villageSync',  function(req, res) {
 
 app.post('/villageSync',  function(req, res) {
     console.log('villageSync POST from ' + req.conn);
-    persistenceSync.receiveUpdates(req.conn, req.tx, village, req.body, function(result) {
+    persistenceSync.receiveUpdates(persistenceStore.getSession(), req.tx, village, req.body, function(result) {
         //res.header("Access-Control-Allow-Origin", "*");
         res.send(result);
     });
