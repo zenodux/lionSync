@@ -80,6 +80,7 @@ app.use(express.bodyParser());
 
 // Actions
 
+app.use(express.static('../static'));
 
 app.get('/villageSync',  function(req, res) {
     var session = persistenceStore.getSession();
