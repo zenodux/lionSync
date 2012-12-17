@@ -8,24 +8,24 @@
 <script src="persistence.sync.js" type="application/javascript"></script>
 
 <script type="text/javascript"> 
-var db = openDatabase('lion2', '1.0', 'Lion Local DB', 2 * 1024 * 1024);
-persistence.store.websql.config(persistence, 'lion2', 'Lion Local DB', 5 * 1024 * 1024);
+//var db = openDatabase('lion', '1.0', 'Lion Local DB', 2 * 1024 * 1024);
+persistence.store.websql.config(persistence, 'lion', 'Lion Local DB', 5 * 1024 * 1024);
 
-db.transaction(function(tx){
+//db.transaction(function(tx){
 	//tx.executeSql('drop table village');
   //tx.executeSql('drop table district');
   //tx.executeSql('drop table groupVillageHead');
   //tx.executeSql('drop table sqlite_sequence');
   //tx.executeSql('drop table tradAuth');
 	//tx.executeSql('delete from district where id = "89BBA8BE7F9C466C82E7A3F76B571268"');
-});
+//});
 
   ////////////
 var village = persistence.define('village', {
   name: "TEXT",
   population: "INT",
   numLatrines: "INT",
-  datMod: "DATE"
+  _lastChange: "DATE"
 });
 persistence.schemaSync();
 village.enableSync('http://192.168.1.15:1337/villageSync');
@@ -109,8 +109,8 @@ function updateVillage(){
 //successful sync errorCallback occurs on error (I.E. a non-200 response code).
 
 //village.syncAll(persistence.sync.preferLocalConflictHandler, function(){alert('success!')}, function(){alert('error!')} );
-//village.syncAll( preferLocalConflictHandler, mySuccess(), myFail() );
-village.syncAll( dummyConflictHandler(), mySuccess(), myFail() );
+village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
+//village.syncAll(preferLocalConflictHandler);
 
 
 </script>

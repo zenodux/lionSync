@@ -2,9 +2,9 @@ var sys = require('sys');
 var connect = require('connect');
 var express = require('express');
 
-var persistence = require('./persistencejs/persistence').persistence;
-var persistenceStore = require('./persistencejs/persistence.store.sqlite3');
-var persistenceSync = require('./persistencejs/persistence.sync.server');
+var persistence = require('persistencejs/persistence').persistence;
+var persistenceStore = require('persistencejs/persistence.store.sqlite3');
+var persistenceSync = require('persistencejs/persistence.sync.server');
 
 // Database configuration
 //persistenceStore.config(persistence, 'localhost', 3306, 'synctest', 'test', 'test');
@@ -89,7 +89,7 @@ function generateDummyData(session) {
 
 //Village
 
-function generateDummyData(session) {
+function generateVillageDummyData(session) {
   var d = new Date();
   var p = new village(session, {name: "ivy city", population: "10000", numLatrines: "20", dateMod: d.value });
   session.add(p);
@@ -103,6 +103,7 @@ app.get('/reset', function(req, res) {
   req.conn.reset(req.tx, function() {
       req.conn.schemaSync(req.tx, function() {
           generateDummyData(req.conn);
+          generateVillageDummyData(req.conn);
           req.conn.flush(req.tx, function() {
               res.send({status: "ok"});
             });
