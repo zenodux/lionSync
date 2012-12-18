@@ -7,6 +7,7 @@ var persistenceStore = require('persistencejs/persistence.store.sqlite3');
 var persistenceSync = require('persistencejs/persistence.sync.server');
 
 var repl = require("repl");
+var mime = require('mime');
 
 // Database configuration
 
@@ -15,6 +16,9 @@ var dbPath = './sqlite_zebraSync.db';
 console.log(dbPath);
 persistenceStore.config(persistence, dbPath);
 
+mime.define({
+    'text/cache-manifest': ['.appcache']
+});
 
 function generateVillageDummyData(session) {
   var d = new Date();

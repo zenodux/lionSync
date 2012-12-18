@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+CACHE:
+./lionSync.html
+./persistence.js
+./persistence.store.sql.js
+./persistence.store.websql.js
+./persistence.sync.js
+
+NETWORK:
+./villageSync
+
+FALLBACK:
