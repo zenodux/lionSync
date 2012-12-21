@@ -51,7 +51,17 @@ window.addEventListener("DOMContentLoaded", function() {
             return false;
         });
 
-    }, false);
+        var QRdiv = document.createElement("div");
+        QRdiv.setAttribute("id", "QRdiv");
+        var QRimg = document.createElement("img");
+        QRimg.setAttribute("id","QRimg");
+        QRimg.setAttribute("src", 
+          "http://chart.apis.google.com/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=" + 
+          encodeURIComponent(document.location.href) 
+        );
+        QRdiv.appendChild(QRimg);
+        document.body.appendChild(QRdiv);
+}, false);
 
 
 
@@ -120,19 +130,14 @@ function updateVillage(){
   persistence.flush();
 }
 
-function handleForm(){
-  console.log("handleForm fired!");
-  return false;
-}
-
 
 //EntityName.syncAll(conflictHandler, successCallback, errorCallback)
 //successCallback and errorCallback are optional. successCallback occurs after a
 //successful sync errorCallback occurs on error (I.E. a non-200 response code).
 
-//village.syncAll(persistence.sync.preferLocalConflictHandler, function(){alert('success!')}, function(){alert('error!')} );
+
 village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
-//village.syncAll(preferLocalConflictHandler);
+
 
 
 </script>
@@ -141,7 +146,7 @@ village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
 <h1>LION Sync</h1>
 <p>(Local Information Offline Network)
 <!-- <p>(Formerly ZebraSync - Sync Your Stripes! Let Your Data Be Herd!) -->
-<form id="villageForm" action="javascript:handleForm()">
+<form id="villageForm">
 	<h2>Village</h2>
 	<select id="village">
     <option id="villageAdd" value="add" label="add a village">add a village</option>

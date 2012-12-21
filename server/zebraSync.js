@@ -122,6 +122,6 @@ app.listen(1337);
 var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
 ad.start();
 
-console.log('zebraSync Basic 2 Server running at http://127.0.0.1:1337/');
+console.log('zebraSync Server running at http://127.0.0.1:1337/');
 //console.log(app.routes);
 //console.log(app.routes.get[0].callbacks[0]);
