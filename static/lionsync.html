@@ -1,11 +1,12 @@
-<html manifest="lionSync.appcache">
+<html manifest="lionSync_null.appcache">
 <head>
 <title>LION Sync</title>
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="persistence.js" type="application/javascript"></script>
 <script src="persistence.store.sql.js" type="application/javascript"></script>
 <script src="persistence.store.websql.js" type="application/javascript"></script>
 <script src="persistence.sync.js" type="application/javascript"></script>
+<script src="http://d3js.org/d3.v2.min.js"></script>
 
 <script type="text/javascript"> 
 //var db = openDatabase('lion', '1.0', 'Lion Local DB', 2 * 1024 * 1024);
@@ -39,6 +40,21 @@ village.enableSync('http://192.168.1.15:1337/villageSync');
 //ta = new TraditionalAuthority({name: "Pemba"});
 //persistence.add(ta);
 persistence.flush();
+
+window.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('villageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log("villageForm fired!");
+            addVillage();
+            this.reset();
+            document.getElementById('villageName').focus();
+            return false;
+        });
+
+    }, false);
+
+
+
 
 function mySuccess(){
   //alert('success!');
@@ -86,9 +102,10 @@ function addVillage(){
   var v = new village();
   v.name = document.getElementById("villageName").value;
   v.population = document.getElementById("villagePopulation").value;
-  v.latrines = document.getElementById("villageNumLatrines").value;
+  v.numLatrines = document.getElementById("villageNumLatrines").value;
   v.datMod = new Date();
   persistence.add(v);
+  persistence.flush();
 }
 
 function updateVillage(){
@@ -100,8 +117,13 @@ function updateVillage(){
   v.latrines = document.getElementById("villageNumLatrines").value;
   v.datMod  = new Date();
   persistence.add(v);
+  persistence.flush();
 }
 
+function handleForm(){
+  console.log("handleForm fired!");
+  return false;
+}
 
 
 //EntityName.syncAll(conflictHandler, successCallback, errorCallback)
@@ -119,7 +141,7 @@ village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
 <h1>LION Sync</h1>
 <p>(Local Information Offline Network)
 <!-- <p>(Formerly ZebraSync - Sync Your Stripes! Let Your Data Be Herd!) -->
-<form id="form1">
+<form id="villageForm" action="javascript:handleForm()">
 	<h2>Village</h2>
 	<select id="village">
     <option id="villageAdd" value="add" label="add a village">add a village</option>
@@ -127,8 +149,9 @@ village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
   <input type="text" id="villageName" length = "10" placeholder="name">
 	<input type="text" id="villagePopulation" length = "10" placeholder="population">
   <input type="text" id="villageNumLatrines" length = "10" placeholder="# of latrines">
-  <input type="submit" value="Submit the form!" style="position: absolute; top: 0; left: 0; z-index: 0; width: 1px; height: 1px; visibility: hidden;" />
+  <input type="submit"  style="position: absolute; top: 0; left: 0; z-index: 0; width: 1px; height: 1px; visibility: hidden;" />
 </form>
-
+<div id="vis">
+</div>
 </body>
 </html>
