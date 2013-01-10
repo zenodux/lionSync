@@ -17,18 +17,18 @@ Our goal is to build both a toolset that developers can build upon and a product
 
 Our current stack from 10,000 feet:
 
-server/p2p peer:
-sqlite (db)
-node.js express (server)
-persistence.js (sync)
-mdns (zeroconf discovery)
-websocket (p2p communication) [soon]
-html5 offline app - serve resources
-
-in-browser client:
-html5 browser supporting webSQL
-html5 offline app - manifest/appCache
-persistence.js (sync)
-d3js (visualizations) [soon]
-QR code (quick nav for smartphones)
-websocket (p2p communication) [soon]
+server/p2p peer:<br>
+sqlite (db)<br>
+node.js express (server)<br>
+persistence.js (sync)<br>
+mdns (zeroconf discovery)<br>
+websocket (p2p communication) [soon]<br>
+html5 offline app - serve resources<br>
+<p>
+in-browser client/p2p peer:<br>
+html5 browser supporting webSQL<br>
+html5 offline app - manifest/appCache<br>
+persistence.js (sync)<br>
+d3js (visualizations) [soon]<br>
+QR code (quick nav for smartphones)<br>
+websocket (p2p communication) [soon]<br>
