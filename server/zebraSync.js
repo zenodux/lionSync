@@ -1,5 +1,5 @@
 var sys = require('sys');
-var connect = require('connect');
+//var connect = require('connect');
 var express = require('express');
 
 var persistence = require('persistencejs/persistence').persistence;
@@ -9,6 +9,8 @@ var persistenceSync = require('persistencejs/persistence.sync.server');
 var repl = require("repl");
 var mime = require('mime');
 var mdns = require('mdns');
+
+//var browserify = require('browserify');
 
 // Database configuration
 
@@ -65,7 +67,7 @@ session.close();
 
 var app = express(
   //connect.logger(), 
-  connect.bodyParser(), 
+  //connect.bodyParser(), 
   //connect.staticCache('../browser'),
   function(req, res, next) {
     var end = res.end;
@@ -86,6 +88,8 @@ app.use(express.bodyParser());
 // Actions
 
 app.use(express.static('../static'));
+//app.use(require('browserify')('../static/browserify'));
+
 
 app.get('/villageSync',  function(req, res) {
     var session = persistenceStore.getSession();
