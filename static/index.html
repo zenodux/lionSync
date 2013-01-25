@@ -5,12 +5,32 @@
 <script src="persistence.js" type="application/javascript"></script>
 <script src="persistence.store.sql.js" type="application/javascript"></script>
 <script src="persistence.store.websql.js" type="application/javascript"></script>
+<script src="persistence.store.memory.js" type="application/javascript"></script>
 <script src="persistence.sync.js" type="application/javascript"></script>
 <script src="http://d3js.org/d3.v2.min.js"></script>
 
 <script type="text/javascript"> 
 //var db = openDatabase('lion', '1.0', 'Lion Local DB', 2 * 1024 * 1024);
-persistence.store.websql.config(persistence, 'lion', 'Lion Local DB', 5 * 1024 * 1024);
+try{
+  persistence.store.websql.config(persistence, 'lion', 'Lion Local DB', 5 * 1024 * 1024);
+  console.log("Your browser supports WebSQL.")
+}
+catch(e){
+  persistence.store.memory.config(persistence);
+  console.log("Your browser does not supports WebSQL. We are using an in-memory DB and serialzing JSON to localStorage.");
+  try{
+    persistence.loadFromLocalStorage(function() {
+      console.log("Data loaded from localStorage");
+    });
+  }
+  catch(e){
+    console.log("Data *not* loaded from localStorage. There probably is no data. " + e)
+  }
+}
+
+// persistence.saveToLocalStorage(function() {
+//   alert("All data saved!");
+// });
 
 //db.transaction(function(tx){
 	//tx.executeSql('drop table village');
