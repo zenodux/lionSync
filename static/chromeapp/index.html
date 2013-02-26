@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>lionSync</title>
+<script src="jquery-1.9.1.min.js"></script>
+<script src="persistence.js" type="application/javascript"></script>
+<script src="persistence.store.sql.js" type="application/javascript"></script>
+<script src="persistence.store.websql.js" type="application/javascript"></script>
+<script src="persistence.store.memory.lionsync.js" type="application/javascript"></script>
+<script src="persistence.sync.lionsync.js" type="application/javascript"></script>
+<script src="d3.v3.min.js"></script>
+<script src="jquery.qrcode.min.js" type="application/javascript"></script>
+<script src="lionSync.js" type="application/javascript"> </script>
+<style>
+#alex {
+  vertical-align: right; position: absolute; position: 
+}
+</style>
+</head>
+<body>
+<h1>lionSync</h1>
+<p>(Local Information Offline Network)
+<!-- <p>(Formerly ZebraSync - Sync Your Stripes! Let Your Data Be Herd!) -->
+<img id="alex" src="lion/alex1.jpg" width="200">
+<form id="villageForm">
+	<h2>Village</h2>
+	<select id="village">
+    <option id="villageAdd" value="add" label="add a village">add a village</option>
+  </select>
+  <input type="text" id="villageName" length = "10" placeholder="name">
+	<input type="text" id="villagePopulation" length = "10" placeholder="population">
+  <input type="text" id="villageNumLatrines" length = "10" placeholder="# of latrines">
+  <input type="submit"  style="position: absolute; top: 0; left: 0; z-index: 0; width: 1px; height: 1px; visibility: hidden;" />
+</form>
+<div id="vis">
+</div>
+</body>
+</html>

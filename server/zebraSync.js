@@ -85,17 +85,18 @@ app.use(express.bodyParser());
 app.use(express.static('../static'));
 
 
-app.get('/villageSync',  function(req, res) {
+app.get('/sync',  function(req, res) {
+    console.log("req query is " + req.query + " and req.entity is " + req.query.entity);
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
-        persistenceSync.pushUpdates(session, tx, village, req.query.since, function(updates) {
+        persistenceSync.pushUpdates(session, tx, req.query.entity, req.query.since, function(updates) {
             res.header("Access-Control-Allow-Origin", "*");
             res.send(updates);
         });
     });
 });
 
-app.post('/villageSync',  function(req, res) {
+app.post('/sync',  function(req, res) {
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
         //console.log('updates (req.body): ' + req);
@@ -104,7 +105,7 @@ app.post('/villageSync',  function(req, res) {
         //     input: process.stdin,
         //     output: process.stdout
         // }).context.req=req;
-        persistenceSync.receiveUpdates(session, tx, village, req.body, function(result) {
+        persistenceSync.receiveUpdates(session, tx, req.query.entity, req.body, function(result) {
             res.header("Access-Control-Allow-Origin", "*");
             res.send(result);
         });

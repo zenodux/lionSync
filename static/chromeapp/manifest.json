@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "lionSync",
+  "version": "0.1",
+  "minimum_chrome_version": "24",
+  "icons": {
+    "128": "lion/alex1.jpg"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    {"socket": [
+      "tcp-connect:*:1337",
+      "tcp-listen::1337",
+      "udp-bind::5353",
+      "udp-send-to::5353"
+    ]},
+    "storage",
+    "http://192.168.1.15:1337/"
+  ],
+  "offline_enabled": true,
+  "description":"HTML5 offline app enabling p2p syncing and manipulation of relational data while offline"
+}
+
+
+
