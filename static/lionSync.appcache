@@ -3,15 +3,15 @@ CACHE MANIFEST
 #hi!!!!!!!!!
 
 CACHE:
-./lionSync.html
-./persistence.js
-./persistence.store.sql.js
-./persistence.store.websql.js
-./persistence.sync.js
-http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
-http://d3js.org/d3.v2.min.js
+#./lionSync.html
+#./persistence.js
+#./persistence.store.sql.js
+#./persistence.store.websql.js
+#./persistence.sync.js
+#http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
+#http://d3js.org/d3.v2.min.js
 
 NETWORK:
-./villageSync
+#./villageSync
 
 FALLBACK:
