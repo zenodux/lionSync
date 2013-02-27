@@ -71,19 +71,59 @@ LionTextBox.prototype = clone(LionElement.prototype);
 LionTextBox.prototype.constructor = LionTextBox;
 
 //class for a select element (child of LionElement)
-function LionSelect(lionfield,lionformat,options) {
+//liondomain should be a lionfield object but can also be an array
+//in the format [{text:t,value:v},{...}]
+function LionSelect(lionfield,lionformat,liondomain) {
 	LionElement.call(this,lionfield,lionformat);
 	this.rootElement = $('<select></select>');
-	for (o in options) {
-		this.rootElement.append(
-		$('<option></option>').html(options[o].text).attr('value',options[o].value)
-		);
+	//check if an array
+	if (liondomain instanceof Array) {
+		for (o in liondomain) {
+			this.rootElement.append(
+				$('<option></option>').html(liondomain[o].text).attr('value',liondomain[o].value)
+			);
+		}
+	}
+	else {
+		/*this.rootElement.show(function() {
+			lionfield.persistenceEntity.load(lionfield.recordId,function(record) {
+				
+			});
+		});*/
+		fieldname = liondomain.fieldName;
+		liondomain.persistenceEntity.all().list( 
+			
+			function(list,fieldName) {
+				$('#'+lionfield.elementId).append($('<option></option>'));
+				for (l in list) {
+					$('#'+lionfield.elementId).append(
+						
+						$('<option></option>').html(list[l][fieldname]).attr('value',list[l].id)
+					)
+				}
+				$('#'+lionfield.elementId).hide();
+				$('#'+lionfield.elementId).show();
+
+				
+			});
 	}
 	//this.rootElement.val(7);
 }
 LionSelect.prototype = clone(LionElement.prototype);
 LionSelect.prototype.constructor = LionSelect;
 
+
+//class for creating the domain of a LionSelect object
+//takes a lionfield by default but can also send it an array in the format [{text:t,value:v},{...}]
+function LionDomain(lionfield) {
+	//check if sent an array
+	if (lionfield instanceof Array) {
+	
+	}
+	else {
+	
+	}
+}
 
 //class for creating table cells (child of LionElement)
 function LionTableCell(lionfield,lionformat) {
@@ -155,8 +195,10 @@ function initialize() {
 	
 //ignore everything below this for now
 	
+
+
+/*
 	
-	/*
 	var format = new LionFormat();
 	$('#test').append($('<table></table>').attr('id','testtable').append($('<tr></tr>').attr('id','testrow')));
 	
@@ -168,7 +210,8 @@ function initialize() {
 		tasks.forEach(function(task){
 			var tempField = new LionField(Task,task.id,'name');
 			if (testCase == 'select') {
-				var temp = new LionSelect(tempField,format,selectOptions);
+				//var temp = new LionSelect(tempField,format,selectOptions);
+				var temp = new LionSelect(tempField,format,tempField);
 				$('#test').append(temp.element());
 				$('#test').append('</br>');
 				
@@ -184,7 +227,7 @@ function initialize() {
 			}				
 
 		});
-	});*/
-	
+	});
+*/
 }
 

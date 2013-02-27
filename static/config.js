@@ -29,13 +29,87 @@ catch(e){
 
 //=====create new entity model for use in this example=====
 
+//*some of the demos are running off of this task, but soon take it off
 var Task = persistence.define('Task', {
   name: "TEXT",
   description: "TEXT",
   done: "BOOL"
 });
 
+//entity for district (name, population, boundaries)
+var District = persistence.define('District',{
+	name: "TEXT",
+	population:"INT",
+	boundary:"TEXT"
+});
+
+
+
+
+//entity for traditional authority (name, population, boundaries)
+var Trad = persistence.define('Trad',{
+	name: "TEXT",
+	population:"INT",
+	boundary:"TEXT"
+});
+
+
+
+//general entity for points
+var Point = persistence.define('Point',{
+	latitude: "INT",
+	longitude: "INT"
+});
+
+var LatrineType = persistence.define('LatrineType', {
+	type: "TEXT"
+});
+
+var WaterPointType = persistence.define('WaterPointType', {
+	type: "TEXT",
+	designPopulation: "INT"
+})
+
+//entity for a water point
+var WaterPoint = persistence.define('WaterPoint',{
+	type: "TEXT"
+	
+});
+WaterPoint.hasOne('id',Point,'point');
+WaterPoint.hasOne('id',WaterPointType,'type');
+//WaterPoint has one point
+//WaterPoint has one type
+
+var Latrine = persistence.define('Latrine', {
+	type: "TEXT"
+})
+Latrine.hasOne('id',Point,'point');
+Latrine.hasOne('id',LatrineType,'type');
+
+//Latrine has one point
+//Latrine has one type
+
+
+
+var Village = persistence.define('Village', {
+	name: "TEXT",
+	population: "INT"	
+});
+Village.hasMany('id',WaterPoint,'waterpoints');
+Village.hasMany('id',Latrine,'latrines');
+Village.hasOne('id',Point,'point');
+Village.hasOne('id',Trad,'trad');
+Village.hasOne('id',District,'district');
+
+//village has many waterpoints
+//village has many latrines
+//village has one point
+//village has one trad
+//village has one district
+
+
 //sync schema
+
 persistence.schemaSync();
 
 
