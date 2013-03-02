@@ -135,7 +135,7 @@ LionTableCell.prototype.constructor = LionTableCell;
 
 //class for creating a div containing numerous elements
 function LionDiv(persistenceEntity, recordId) {
-	this.rootElement = $('<div></div>');
+	this.rootElement = $('<div></div>').attr('id',recordId + '-div');
 	this.element = function() {
 		return this.rootElement;
 	}
@@ -149,15 +149,62 @@ function LionDiv(persistenceEntity, recordId) {
 //class for creating a set of text boxes embedded in a table row
 function SanVillage(persistenceEntity,recordId) {
 	LionDiv.call(this,persistenceEntity,recordId);
+	//var table = $('<table></table>');
+	//var row = $('<tr></tr>');
+	//row = row.append($('<td></td>').append($('<p>Village Name</p>')).append(new LionTextBox(new //LionField(persistenceEntity,recordId,'name'),new LionFormat).element()));
+	//row = row.append($('<td></td>').append($('<p>Village Population</p>')).append(new LionTextBox(new LionField(persistenceEntity,recordId,'population'),new LionFormat).element()));
+	//table.append(row);
+	//this.rootElement.append(table);
 	var f = new LionField(persistenceEntity,recordId,'name');
 	var t = new LionTextBox(f,new LionFormat());
+	this.rootElement.append('<p>Name</p>')
 	this.rootElement.append(t.element())//.append($('</br>'));
+	f = new LionField(persistenceEntity,recordId,'population');
+	t = new LionTextBox(t,new LionFormat);
 } 
 SanVillage.prototype = clone(LionDiv.prototype);
 SanVillage.prototype.constructor = SanVillage.prototype;
 
 
+function VillageDisplayRow(persistenceEntity,recordId) {
+	LionDiv.call(this,persistenceEntity,recordId);
+	//name, population, numBasicLatrines, numImprvLatrines, numFuncWPs, numNonFuncWPs
+	
+	var fields = ['name','district','population','numBasicLatrines','numImprvLatrines','numFuncWPs','numNonFuncWPs'];
+	var tableRow = $('<tr></tr>').attr('id',recordId + '-div');
+	for (f in fields) {
+		fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
+		tableRow.append(new LionTableCell(fields[f],new LionFormat()).element());
+	}
+	tableRow.append($('<td></td>').append($('<button>Edit</button>').attr('id',recordId).attr('onclick','editRecord(this.id)')));
+	//resettin'g root element, rather than appending, so it returns a row, not a div
+	this.rootElement = tableRow;
+	
+	
+}
+VillageDisplayRow.prototype = clone(LionDiv.prototype);
+VillageDisplayRow.prototype.constructor = VillageDisplayRow.prototype;
 
+
+function VillageEditDiv(persistenceEntity,recordId) {
+	LionDiv.call(this,persistenceEntity,recordId);
+	this.rootElement.attr('class','row-fluid');
+	
+	var fields = ['name','district','population','numBasicLatrines','numImprvLatrines','numFuncWPs','numNonFuncWPs'];
+	
+	for (f in fields) {
+		this.rootElement.append('<p>'+fields[f]+'<p>')
+		fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
+		
+		this.rootElement.append(new LionTextBox(fields[f],new LionFormat()).element());
+	}
+	this.rootElement.append('</br>');
+	this.rootElement.append($('<button>Done Editing</button>').attr('id',recordId).attr('onclick','closeEditDiv(this.id)'))
+	
+	
+}
+VillageDisplayRow.prototype = clone(LionDiv.prototype);
+VillageDisplayRow.prototype.constructor = VillageDisplayRow.prototype;
 
 
 //EXAMPLE IMPLEMENTATION
@@ -167,26 +214,92 @@ SanVillage.prototype.constructor = SanVillage.prototype;
 
 
 //create a dummy record
-var test = new Task();
-test.name = "Carlos	";
-persistence.add(test);
-persistence.flush();
+
+//persistence.add(test);
+//persistence.flush();
 
 //function creates 
 
+function updateVillageDisplay() {
+
+	Village.all().list(function(villages) {
+		villages.forEach(function(village) {
+			$('#displayTable').append(new VillageDisplayRow(Village,village.id).element());
+		});
+	});
+	
+}
+
+function editRecord(recordId) {
+	$('#'+recordId+'-div').remove();
+	$('#editRow').append(new VillageEditDiv(Village,recordId).element());
+	$('#btnNewRecord').toggle();
+}
+
+function createRecord() {
+	
+	var temp = new Village();
+	persistence.add(temp);
+	persistence.flush();
+	editRecord(temp.id);
+	
+}
+
+function closeEditDiv(recordId) {
+	$('#' + recordId + "-div").remove();
+	$('#displayTable').append(new VillageDisplayRow(Village,recordId).element());
+	$('#btnNewRecord').toggle();
+}
+
 function initialize() {
+	//update the village display table
+	updateVillageDisplay();
+	$('#editRow').append($('<button>Add Village</button>').attr('onclick','createRecord()').attr('id','btnNewRecord'));
+	
+	//var test = new Village();
+	//test.name = "Owen";
+	//persistence.add(test);
+	//persistence.flush();
 	
 	
-	Task.all().list(function(tasks){
+	//$('#displayTable').append(new VillageDisplayRow(Village,test.id).element());
+	/*
+	var test = new Latrine();
+	var type = new LatrineType();
+	type.type = "Carlos";
+	Latrine.all().prefetch('type').add(type);
+	//test.type.add(type);
+	/*Task.all().list(function(tasks){
 		tasks.forEach(function(task){
 			var v = new SanVillage(Task,task.id);
 			$('#test').append(v.element());
 		});
+	});*/
+	
+	/*
+	Latrine.all().prefetch('type').list(function(villages){
+		villages.forEach(function(village){
+			var v = new SanVillage(Village,village.id);
+			$('#test').append(v.element());
+		});
 	});
 	
+	/*
+	Village.all().count( function(cnt) {
+		if (cnt >0) {
+			Village.all().list(function(villages) {
+				villages.forEach(function(village) {
+					//var v = 
+					$('#test').append(new SanVillage(Village,village.id).element());
+				});
+			});
+			//alert(cnt);
+		}
+	});
 	
+	$('#test').attr('id','new_vilage').append($('<button>Test</button>')).click(function() {});
 	
-	
+	*/
 	
 	
 	
