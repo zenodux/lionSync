@@ -99,7 +99,7 @@ app.use(express.bodyParser());
 app.use(express.static('../static'));
 
 
-app.get('/sync',  function(req, res) {
+app.get('/sync/*',  function(req, res) {
     console.log("req query is " + req.query + " and req.entity is " + req.query.entity);
     var url_parts = url.parse(req.url, true);
     var entity = url_parts.pathname;
