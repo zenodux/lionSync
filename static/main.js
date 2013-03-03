@@ -16,7 +16,7 @@ var dbName = 'lionSyncDb';
 //=====connect to DB=====
 try{
   persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
-  console.log("Your browser supports WebSQL.")
+  console.log("Your browser supports WebSQL.");
 }
 catch(e){
   persistence.store.memory.config(persistence);
@@ -54,6 +54,46 @@ numNonFuncWPs: "INT",
 //sync schema
 persistence.schemaSync();
 Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync?entity=Village');
+persistence.flush();
+
+function mySuccess(){
+  console.log("sync success!");
+}
+
+function myFail(){
+  console.log("sync failure!");
+}
+
+function myConflict(conflict){
+  console.log("sync confict! " + conflict);
+}
+
+function preferLocalConflictHandler(conflicts, updatesToPush, callback) {
+  console.log("sync confict! " + conflicts);
+  conflicts.forEach(function(conflict) {
+      var update = {id: conflict.local.id};
+      conflict.properties.forEach(function(p) {
+          update[p] = conflict.local._data[p];
+        });
+      updatesToPush.push(update);
+    });
+  callback();
+}
+
+function preferRemoteConflictHandler(conflicts, updatesToPush, callback) {
+  conflicts.forEach(function(conflicts) {
+      conflict.properties.forEach(function(p) {
+          conflict.local[p] = conflict.remote[p];
+        });
+    });
+  persistence.flush(callback);
+}
+
+function dummyConflictHandler(conflicts, updatesToPush, callback) {
+  persistence.flush(callback);
+}
+
+village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
 
 //END CODE FROM CONFIG.JS
 
