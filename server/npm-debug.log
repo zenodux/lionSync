@@ -1,0 +1,204 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install', 'mdns' ]
+2 info using npm@1.2.11
+3 info using node@v0.8.21
+4 verbose read json /home/ec2-user/lionSync/server/package.json
+5 verbose read json /home/ec2-user/lionSync/server/node_modules/express/package.json
+6 verbose read json /home/ec2-user/lionSync/server/node_modules/mime/package.json
+7 verbose read json /home/ec2-user/lionSync/server/node_modules/connect/package.json
+8 verbose read json /home/ec2-user/lionSync/server/node_modules/BK_mdns/package.json
+9 verbose read json /home/ec2-user/lionSync/server/node_modules/BK_sqlite3/package.json
+10 verbose read json /home/ec2-user/lionSync/server/node_modules/persistencejs/package.json
+11 verbose read json /home/ec2-user/lionSync/server/node_modules/sqlite3/package.json
+12 verbose read json /home/ec2-user/lionSync/server/package.json
+13 verbose cache add [ 'mdns', null ]
+14 verbose cache add name=undefined spec="mdns" args=["mdns",null]
+15 verbose parsed url { pathname: 'mdns', path: 'mdns', href: 'mdns' }
+16 silly lockFile 5e6f4f79-mdns mdns
+17 verbose lock mdns /home/ec2-user/.npm/5e6f4f79-mdns.lock
+18 silly lockFile 5e6f4f79-mdns mdns
+19 silly lockFile 5e6f4f79-mdns mdns
+20 verbose addNamed [ 'mdns', '' ]
+21 verbose addNamed [ null, '' ]
+22 silly lockFile 5f1e5f16-mdns mdns@
+23 verbose lock mdns@ /home/ec2-user/.npm/5f1e5f16-mdns.lock
+24 silly addNameRange { name: 'mdns', range: '', hasData: false }
+25 verbose url raw mdns
+26 verbose url resolving [ 'https://registry.npmjs.org/', './mdns' ]
+27 verbose url resolved https://registry.npmjs.org/mdns
+28 info trying registry request attempt 1 at 19:17:26
+29 verbose etag "7U8YQQBY1K07N8QAMOPF1RIHG"
+30 http GET https://registry.npmjs.org/mdns
+31 http 304 https://registry.npmjs.org/mdns
+32 silly registry.get cb [ 304,
+32 silly registry.get   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+32 silly registry.get     etag: '"7U8YQQBY1K07N8QAMOPF1RIHG"',
+32 silly registry.get     date: 'Sun, 03 Mar 2013 19:17:27 GMT',
+32 silly registry.get     'content-length': '0' } ]
+33 verbose etag mdns from cache
+34 silly addNameRange number 2 { name: 'mdns', range: '', hasData: true }
+35 silly addNameRange versions [ 'mdns',
+35 silly addNameRange   [ '0.0.3', '0.0.4', '0.0.5', '0.0.6', '0.0.7', '1.0.0', '1.1.0' ] ]
+36 verbose addNamed [ 'mdns', '1.1.0' ]
+37 verbose addNamed [ '1.1.0', '1.1.0' ]
+38 silly lockFile d9a67a42-mdns-1-1-0 mdns@1.1.0
+39 verbose lock mdns@1.1.0 /home/ec2-user/.npm/d9a67a42-mdns-1-1-0.lock
+40 verbose read json /home/ec2-user/.npm/mdns/1.1.0/package/package.json
+41 silly lockFile d9a67a42-mdns-1-1-0 mdns@1.1.0
+42 silly lockFile d9a67a42-mdns-1-1-0 mdns@1.1.0
+43 silly lockFile 5f1e5f16-mdns mdns@
+44 silly lockFile 5f1e5f16-mdns mdns@
+45 silly resolved [ { name: 'mdns',
+45 silly resolved     version: '1.1.0',
+45 silly resolved     description: 'multicast DNS service discovery',
+45 silly resolved     main: './lib/mdns.js',
+45 silly resolved     scripts: { test: 'node utils/testrun', install: 'node-gyp rebuild' },
+45 silly resolved     keywords: [ 'zeroconf', 'bonjour', 'dns_sd', 'mDNSResponder' ],
+45 silly resolved     devDependencies:
+45 silly resolved      { ejs: '*',
+45 silly resolved        less: '*',
+45 silly resolved        mkdirp: '*',
+45 silly resolved        nopt: '*',
+45 silly resolved        slide: '*',
+45 silly resolved        glob: '*',
+45 silly resolved        ncp: '*',
+45 silly resolved        minimatch: '*' },
+45 silly resolved     repository: { type: 'git', url: 'http://github.com/agnat/node_mdns.git' },
+45 silly resolved     homepage: 'http://agnat.github.com/node_mdns',
+45 silly resolved     bugs: { url: 'http://github.com/agnat/node_mdns/issues' },
+45 silly resolved     licenses: [ [Object] ],
+45 silly resolved     author: { name: 'David Siegel', email: 'david@artcom.de' },
+45 silly resolved     contributors: [ [Object], [Object], [Object], [Object], [Object] ],
+45 silly resolved     gypfile: true,
+45 silly resolved     readme: 'h1. mdns -- node.js Service Discovery\n\n|_. Package:       | mdns |\n|_. Description:   | multicast DNS service discovery |\n|_. Version:       | 1.1.0 |\n|_. Installation:  | @npm install mdns@ (see below) |\n|_. Documentation: | "mdns user guide":http://agnat.github.com/node_mdns/user_guide.html |\n|_. License:       | "MIT":http://github.com/agnat/node_mdns/blob/master/LICENSE |\n|_. Donations:     | !http://api.flattr.com/button/flattr-badge-large.png(Flattr this git repository)!:https://flattr.com/submit/auto?user_id=agnat&url=https://github.com/agnat/node_mdns&title=node_mdns&tags=github&category=software |\n\nmdns adds multicast DNS service discovery, also known as zeroconf or bonjour to "node.js":/joyent/node. It provides an object based interface to announce and browse services on the local network.\n\nh2. Synopsis\n\nbc.. // import the module\nvar mdns = require(\'mdns\');\n\n// advertise a http server on port 4321\nvar ad = mdns.createAdvertisement(mdns.tcp(\'http\'), 4321);\nad.start();\n\n// watch all http servers\nvar browser = mdns.createBrowser(mdns.tcp(\'http\'));\nbrowser.on(\'serviceUp\', function(service) {\n  console.log("service up: ", service);\n});\nbrowser.on(\'serviceDown\', function(service) {\n  console.log("service down: ", service);\n});\nbrowser.start();\n\n// discover all available service types\nvar all_the_types = mdns.browseThemAll(); // all_the_types is just another browser...\n\nh2. Installation\n\nOn Linux and other systems using the avahi daemon the avahi dns_sd compat library and its header files are required.  On debianesque systems the package name is @libavahi-compat-libdnssd-dev@.  On other platforms Apples "mDNSResponder":http://opensource.apple.com/tarballs/mDNSResponder/ is recommended. Care should be taken not to install more than one mDNS stack on a system. \n\nOn Windows you are going to need Apples "Bonjour SDK for Windows". You can download it either from Apple (registration required) or various unofficial sources. Take your pick. After installing the SDK restart your shell or command prompt and make sure the @BONJOUR_SDK_HOME@ environment variable is set. You\'ll also need a compiler. Microsoft Visual Studio Express will do. On Windows node >=0.7.9 is required.\n\nmdns is available as a npm package:\n\nbc. npm install mdns\n\nIf you want to play with the latest source code, here is a more manual approach:\n\nbc.. git clone http://github.com/agnat/node_mdns\ncd node_mdns\nnpm link && npm test\n\nh2. Documentation\n\nSee the "user guide":http://agnat.github.com/node_mdns/user_guide.html.\n\nh2. Contributors\n\n... in random order:\n\n* Orlando Vazquez ("@orlandov":http://github.com/orlandov)\n* Ryan Dahl ("@ry":http://github.com/ry)\n* Dominic Tarr ("@dominictarr":http://github.com/dominictarr)\n* Emil Stenqvist ("@emilisto":http://github.com/emilisto)\n* Toby Ealden ("@TobyEalden":http://github.com/TobyEalden)\n\nYour name is missing on the list? Shame on me. Please open an issue.\n\nh2. Bugs and Contributions\n\nIf you find a bug, please report it using the "issue tracker":http://github.com/agnat/node_mdns/issues.\n\n<!-- vim: set linebreak filetype=textile spell spelllang=en_us : -->\n',
+45 silly resolved     readmeFilename: 'README.textile',
+45 silly resolved     _id: 'mdns@1.1.0',
+45 silly resolved     _from: 'mdns@' } ]
+46 info install mdns@1.1.0 into /home/ec2-user/lionSync/server
+47 info installOne mdns@1.1.0
+48 verbose from cache /home/ec2-user/.npm/mdns/1.1.0/package/package.json
+49 info /home/ec2-user/lionSync/server/node_modules/mdns unbuild
+50 verbose read json /home/ec2-user/lionSync/server/node_modules/mdns/package.json
+51 verbose tar unpack /home/ec2-user/.npm/mdns/1.1.0/package.tgz
+52 silly lockFile b9f91c18-ionSync-server-node-modules-mdns /home/ec2-user/lionSync/server/node_modules/mdns
+53 verbose lock /home/ec2-user/lionSync/server/node_modules/mdns /home/ec2-user/.npm/b9f91c18-ionSync-server-node-modules-mdns.lock
+54 silly lockFile 71ca248a--user-npm-mdns-1-1-0-package-tgz /home/ec2-user/.npm/mdns/1.1.0/package.tgz
+55 verbose lock /home/ec2-user/.npm/mdns/1.1.0/package.tgz /home/ec2-user/.npm/71ca248a--user-npm-mdns-1-1-0-package-tgz.lock
+56 silly gunzTarPerm modes [ '755', '644' ]
+57 silly gunzTarPerm extractEntry package.json
+58 silly gunzTarPerm extractEntry .npmignore
+59 silly gunzTarPerm extractEntry LICENSE
+60 silly gunzTarPerm extractEntry utils/lib/compiler.js
+61 silly gunzTarPerm extractEntry utils/lib/obj.js
+62 silly gunzTarPerm extractEntry utils/lib/mdns_test.js
+63 silly gunzTarPerm extractEntry utils/lib/view.js
+64 silly gunzTarPerm extractEntry utils/lib/actors.js
+65 silly gunzTarPerm extractEntry utils/lib/bunch.js
+66 silly gunzTarPerm extractEntry utils/lib/ncov.js
+67 silly gunzTarPerm extractEntry utils/lib/lcov.js
+68 silly gunzTarPerm extractEntry utils/render_report
+69 silly gunzTarPerm extractEntry utils/jsf
+70 silly gunzTarPerm extractEntry utils/docpack
+71 silly gunzTarPerm extractEntry utils/coverage
+72 silly gunzTarPerm extractEntry utils/testrun
+73 silly gunzTarPerm extractEntry binding.gyp
+74 silly gunzTarPerm extractEntry Makefile
+75 silly gunzTarPerm extractEntry lib/avahi.js
+76 silly gunzTarPerm extractEntry lib/mdns_service.js
+77 silly gunzTarPerm extractEntry lib/io_watcher.js
+78 silly gunzTarPerm extractEntry lib/browser.js
+79 silly gunzTarPerm extractEntry lib/dns_sd.js
+80 silly gunzTarPerm extractEntry lib/service_type.js
+81 silly gunzTarPerm extractEntry lib/network_interface.js
+82 silly gunzTarPerm extractEntry lib/resolver_sequence_tasks.js
+83 silly gunzTarPerm extractEntry lib/advertisement.js
+84 silly gunzTarPerm extractEntry lib/mdns.js
+85 silly gunzTarPerm extractEntry wscript
+86 silly gunzTarPerm extractEntry README.textile
+87 silly gunzTarPerm extractEntry examples/simple_browser.js
+88 silly gunzTarPerm extractEntry examples/simple_ad.js
+89 silly gunzTarPerm extractEntry examples/express_app.js
+90 silly gunzTarPerm extractEntry src/socket_watcher.cpp
+91 silly gunzTarPerm extractEntry src/mdns_settings.hpp
+92 silly gunzTarPerm extractEntry src/mdns_utils.hpp
+93 silly gunzTarPerm extractEntry src/dns_sd.cpp
+94 silly gunzTarPerm extractEntry src/network_interface.cpp
+95 silly gunzTarPerm extractEntry src/dns_service_process_result.cpp
+96 silly gunzTarPerm extractEntry src/txt_record_deallocate.cpp
+97 silly gunzTarPerm extractEntry src/mdns_utils.cpp
+98 silly gunzTarPerm extractEntry src/dns_service_ref.cpp
+99 silly gunzTarPerm extractEntry src/dns_service_ref_deallocate.cpp
+100 silly gunzTarPerm extractEntry src/dns_service_resolve.cpp
+101 silly gunzTarPerm extractEntry src/dns_service_get_addr_info.cpp
+102 silly gunzTarPerm extractEntry src/socket_watcher.hpp
+103 silly gunzTarPerm extractEntry src/txt_record_get_length.cpp
+104 silly gunzTarPerm extractEntry src/dns_service_browse.cpp
+105 silly gunzTarPerm extractEntry src/txt_record_buffer_to_object.cpp
+106 silly gunzTarPerm extractEntry src/dns_service_ref.hpp
+107 silly gunzTarPerm extractEntry src/txt_record_create.cpp
+108 silly gunzTarPerm extractEntry src/txt_record_set_value.cpp
+109 silly gunzTarPerm extractEntry src/txt_record_ref.cpp
+110 silly gunzTarPerm extractEntry src/skeleton.cpp_
+111 silly gunzTarPerm extractEntry src/mdns.hpp
+112 silly gunzTarPerm extractEntry src/dns_service_ref_sock_fd.cpp
+113 silly gunzTarPerm extractEntry src/dns_service_register.cpp
+114 silly gunzTarPerm extractEntry src/txt_record_ref.hpp
+115 silly gunzTarPerm extractEntry src/dns_service_enumerate_domains.cpp
+116 silly gunzTarPerm extractEntry src/demangle.cpp
+117 silly gunzTarPerm extractEntry tests/test_network_interface.js
+118 silly gunzTarPerm extractEntry tests/test_service_type.js
+119 silly gunzTarPerm extractEntry tests/test_functional.js
+120 silly gunzTarPerm extractEntry tests/test_odd_ends.js
+121 silly gunzTarPerm extractEntry tests/test_dns_sd.js
+122 silly gunzTarPerm extractEntry CHANGES
+123 silly gunzTarPerm extractEntry node-waf.bat
+124 verbose read json /home/ec2-user/lionSync/server/node_modules/mdns/package.json
+125 silly lockFile b9f91c18-ionSync-server-node-modules-mdns /home/ec2-user/lionSync/server/node_modules/mdns
+126 silly lockFile b9f91c18-ionSync-server-node-modules-mdns /home/ec2-user/lionSync/server/node_modules/mdns
+127 silly lockFile 71ca248a--user-npm-mdns-1-1-0-package-tgz /home/ec2-user/.npm/mdns/1.1.0/package.tgz
+128 silly lockFile 71ca248a--user-npm-mdns-1-1-0-package-tgz /home/ec2-user/.npm/mdns/1.1.0/package.tgz
+129 info preinstall mdns@1.1.0
+130 verbose from cache /home/ec2-user/lionSync/server/node_modules/mdns/package.json
+131 verbose readDependencies using package.json deps
+132 verbose from cache /home/ec2-user/lionSync/server/node_modules/mdns/package.json
+133 verbose readDependencies using package.json deps
+134 silly resolved []
+135 verbose about to build /home/ec2-user/lionSync/server/node_modules/mdns
+136 info build /home/ec2-user/lionSync/server/node_modules/mdns
+137 verbose from cache /home/ec2-user/lionSync/server/node_modules/mdns/package.json
+138 verbose linkStuff [ false,
+138 verbose linkStuff   false,
+138 verbose linkStuff   false,
+138 verbose linkStuff   '/home/ec2-user/lionSync/server/node_modules' ]
+139 info linkStuff mdns@1.1.0
+140 verbose linkBins mdns@1.1.0
+141 verbose linkMans mdns@1.1.0
+142 verbose rebuildBundles mdns@1.1.0
+143 info install mdns@1.1.0
+144 verbose unsafe-perm in lifecycle true
+145 silly exec sh "-c" "node-gyp rebuild"
+146 silly sh,-c,node-gyp rebuild,/home/ec2-user/lionSync/server/node_modules/mdns spawning
+147 info mdns@1.1.0 Failed to exec install script
+148 info /home/ec2-user/lionSync/server/node_modules/mdns unbuild
+149 verbose from cache /home/ec2-user/lionSync/server/node_modules/mdns/package.json
+150 info preuninstall mdns@1.1.0
+151 info uninstall mdns@1.1.0
+152 verbose true,/home/ec2-user/lionSync/server/node_modules,/home/ec2-user/lionSync/server/node_modules unbuild mdns@1.1.0
+153 info postuninstall mdns@1.1.0
+154 error mdns@1.1.0 install: `node-gyp rebuild`
+154 error `sh "-c" "node-gyp rebuild"` failed with 1
+155 error Failed at the mdns@1.1.0 install script.
+155 error This is most likely a problem with the mdns package,
+155 error not with npm itself.
+155 error Tell the author that this fails on your system:
+155 error     node-gyp rebuild
+155 error You can get their info via:
+155 error     npm owner ls mdns
+155 error There is likely additional logging output above.
+156 error System Linux 3.2.38-5.48.amzn1.x86_64
+157 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "mdns"
+158 error cwd /home/ec2-user/lionSync/server
+159 error node -v v0.8.21
+160 error npm -v 1.2.11
+161 error code ELIFECYCLE
+162 verbose exit [ 1, true ]

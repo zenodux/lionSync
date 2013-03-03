@@ -7,7 +7,7 @@ var persistenceSync = require('persistencejs/persistence.sync.server');
 
 var repl = require("repl");
 var mime = require('mime');
-var mdns = require('mdns');
+//var mdns = require('mdns');
 
 
 // Database configuration
@@ -118,8 +118,8 @@ app.post('/sync',  function(req, res) {
 app.listen(1337);
 
 // advertise a http server on port 1337
-var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
-ad.start();
+//var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
+//ad.start();
 
 console.log('zebraSync Server running at http://127.0.0.1:1337/');
 //console.log(app.routes);
