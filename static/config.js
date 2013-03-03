@@ -98,7 +98,7 @@ Latrine.hasOne('type',LatrineType,'latrine');
 
 
 */
-var village = persistence.define('Village', {
+var Village = persistence.define('Village', {
 	name: "TEXT",
 	district: "TEXT",
 	population: "INT",
@@ -123,7 +123,7 @@ var village = persistence.define('Village', {
 //sync schema
 
 persistence.schemaSync();
-village.enableSync( server + '/sync?entity=village');
+Village.enableSync( server + '/sync?entity=village');
 
 
 //OLD config.js INCLUDED BELOW
