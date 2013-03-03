@@ -103,7 +103,7 @@ app.get('/sync',  function(req, res) {
     console.log("req query is " + req.query + " and req.entity is " + req.query.entity);
     var url_parts = url.parse(req.url, true);
     var entity = url_parts.pathname;
-    entity = entity.match([a-zA-Z0-9]*$);
+    entity = entity.match("[a-zA-Z0-9]*$");
     console.log("entity is " + entity);
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
