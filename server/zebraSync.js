@@ -60,9 +60,10 @@ var session = persistenceStore.getSession();
 //   });
 // });
 // session.close();
+var entities;
 
 session.transaction(function(tx){
-  var Village = persistence.define('Village', {
+  entities["Village"] = persistence.define('Village', {
     name: "TEXT",
     district: "TEXT",
     population: "INT",
@@ -107,7 +108,7 @@ app.get('/sync/*',  function(req, res) {
     console.log("entity is " + entity);
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
-        persistenceSync.pushUpdates(session, tx, entity, req.query.since, function(updates) {
+        persistenceSync.pushUpdates(session, tx, entities[entity], req.query.since, function(updates) {
             res.header("Access-Control-Allow-Origin", "*");
             res.send(updates);
         });
