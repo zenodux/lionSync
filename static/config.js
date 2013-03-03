@@ -98,7 +98,7 @@ Latrine.hasOne('type',LatrineType,'latrine');
 
 
 */
-var Village = persistence.define('Village', {
+var village = persistence.define('Village', {
 	name: "TEXT",
 	district: "TEXT",
 	population: "INT",
