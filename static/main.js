@@ -252,6 +252,53 @@ function closeEditDiv(recordId) {
 }
 
 function initialize() {
+	var server = "http://lionSync.the-carlos.net:1337"
+	//=====db name here=====
+	var dbName = 'lionSyncDb';
+	//=====connect to DB=====
+	try{
+	  persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
+	  console.log("Your browser supports WebSQL.")
+	}
+	catch(e){
+	  persistence.store.memory.config(persistence);
+	  console.log("Your browser does not supports WebSQL. We are using an in-memory DB and serialzing JSON to localStorage.");
+	  try{
+	    persistence.loadFromLocalStorage(function() {
+	      console.log("Data loaded from localStorage");
+	    });
+	  }
+	  catch(e){
+	    console.log("Data *not* loaded from localStorage. There probably is no data. " + e)
+	  }
+	}
+	var Village = persistence.define('Village', {
+	name: "TEXT",
+	district: "TEXT",
+	population: "INT",
+	numBasicLatrines: "INT",
+	numImprvLatrines: "INT",
+	numFuncWPs: "INT",
+	numNonFuncWPs: "INT",
+	});
+	//Village.hasMany('id',WaterPoint,'waterpoints');
+	//Village.hasMany('id',Latrine,'latrines');
+	//Village.hasOne('id',Point,'point');
+	//Village.hasOne('id',Trad,'trad');
+	//Village.hasOne('id',District,'district');
+
+	//village has many waterpoints
+	//village has many latrines
+	//village has one point
+	//village has one trad
+	//village has one district
+
+	//sync schema
+	persistence.schemaSync();
+	Village.enableSync( server + '/sync?entity=Village');
+
+	//END CODE FROM CONFIG.JS
+
 	//update the village display table
 	updateVillageDisplay();
 	$('#editRow').append($('<button>Add Village</button>').attr('onclick','createRecord()').attr('id','btnNewRecord'));

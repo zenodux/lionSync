@@ -123,7 +123,7 @@ var Village = persistence.define('Village', {
 //sync schema
 
 persistence.schemaSync();
-Village.enableSync( server + '/sync?entity=village');
+Village.enableSync( server + '/sync?entity=Village');
 
 
 //OLD config.js INCLUDED BELOW
