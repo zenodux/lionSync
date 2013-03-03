@@ -53,7 +53,7 @@ numNonFuncWPs: "INT",
 
 //sync schema
 persistence.schemaSync();
-Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync?entity=Village&');
+Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync/Village');
 persistence.flush();
 
 function mySuccess(){
