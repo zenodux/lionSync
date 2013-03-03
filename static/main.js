@@ -10,7 +10,7 @@
 
 
 
-var server = "http://lionSync.the-carlos.net:1337"
+var server = "http://lionSync.the-carlos.net:1337";
 //=====db name here=====
 var dbName = 'lionSyncDb';
 //=====connect to DB=====
@@ -27,7 +27,7 @@ catch(e){
     });
   }
   catch(e){
-    console.log("Data *not* loaded from localStorage. There probably is no data. " + e)
+    console.log("Data *not* loaded from localStorage. There probably is no data. " + e);
   }
 }
 var Village = persistence.define('Village', {
@@ -53,7 +53,7 @@ numNonFuncWPs: "INT",
 
 //sync schema
 persistence.schemaSync();
-Village.enableSync( server + '/sync?entity=Village');
+Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync?entity=Village');
 
 //END CODE FROM CONFIG.JS
 
