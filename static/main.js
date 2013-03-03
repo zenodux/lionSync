@@ -93,7 +93,7 @@ function dummyConflictHandler(conflicts, updatesToPush, callback) {
   persistence.flush(callback);
 }
 
-village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
+Village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
 
 //END CODE FROM CONFIG.JS
 
