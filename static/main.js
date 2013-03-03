@@ -8,6 +8,147 @@
 	// - replace style with class
 	// - set up an object to contain and create a bunch of UI elements in a div
 
+
+
+var server = "http://lionSync.the-carlos.net:1337"
+//=====db name here=====
+var dbName = 'lionSyncDb';
+//=====connect to DB=====
+try{
+  persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
+  console.log("Your browser supports WebSQL.")
+}
+catch(e){
+  persistence.store.memory.config(persistence);
+  console.log("Your browser does not supports WebSQL. We are using an in-memory DB and serialzing JSON to localStorage.");
+  try{
+    persistence.loadFromLocalStorage(function() {
+      console.log("Data loaded from localStorage");
+    });
+  }
+  catch(e){
+    console.log("Data *not* loaded from localStorage. There probably is no data. " + e)
+  }
+}
+var Village = persistence.define('Village', {
+name: "TEXT",
+district: "TEXT",
+population: "INT",
+numBasicLatrines: "INT",
+numImprvLatrines: "INT",
+numFuncWPs: "INT",
+numNonFuncWPs: "INT",
+});
+//Village.hasMany('id',WaterPoint,'waterpoints');
+//Village.hasMany('id',Latrine,'latrines');
+//Village.hasOne('id',Point,'point');
+//Village.hasOne('id',Trad,'trad');
+//Village.hasOne('id',District,'district');
+
+//village has many waterpoints
+//village has many latrines
+//village has one point
+//village has one trad
+//village has one district
+
+//sync schema
+persistence.schemaSync();
+Village.enableSync( server + '/sync?entity=Village');
+
+//END CODE FROM CONFIG.JS
+
+//update the village display table
+updateVillageDisplay();
+$('#editRow').append($('<button>Add Village</button>').attr('onclick','createRecord()').attr('id','btnNewRecord'));
+
+//var test = new Village();
+//test.name = "Owen";
+//persistence.add(test);
+//persistence.flush();
+
+
+//$('#displayTable').append(new VillageDisplayRow(Village,test.id).element());
+/*
+var test = new Latrine();
+var type = new LatrineType();
+type.type = "Carlos";
+Latrine.all().prefetch('type').add(type);
+//test.type.add(type);
+/*Task.all().list(function(tasks){
+	tasks.forEach(function(task){
+		var v = new SanVillage(Task,task.id);
+		$('#test').append(v.element());
+	});
+});*/
+
+/*
+Latrine.all().prefetch('type').list(function(villages){
+	villages.forEach(function(village){
+		var v = new SanVillage(Village,village.id);
+		$('#test').append(v.element());
+	});
+});
+
+/*
+Village.all().count( function(cnt) {
+	if (cnt >0) {
+		Village.all().list(function(villages) {
+			villages.forEach(function(village) {
+				//var v = 
+				$('#test').append(new SanVillage(Village,village.id).element());
+			});
+		});
+		//alert(cnt);
+	}
+});
+
+$('#test').attr('id','new_vilage').append($('<button>Test</button>')).click(function() {});
+
+*/
+
+
+
+
+
+
+//ignore everything below this for now
+
+
+
+/*
+
+var format = new LionFormat();
+$('#test').append($('<table></table>').attr('id','testtable').append($('<tr></tr>').attr('id','testrow')));
+
+testCase = 'select';
+
+var selectOptions = [{text:'six',value:6},{text:'seven',value:7}];
+
+Task.all().list(function(tasks){
+	tasks.forEach(function(task){
+		var tempField = new LionField(Task,task.id,'name');
+		if (testCase == 'select') {
+			//var temp = new LionSelect(tempField,format,selectOptions);
+			var temp = new LionSelect(tempField,format,tempField);
+			$('#test').append(temp.element());
+			$('#test').append('</br>');
+			
+		}
+		else if (testCase == 'text') {
+			var temp = new LionTextBox(tempField,format);
+			$('#test').append(temp.element());
+			$('#test').append('</br>');
+		}
+		else if (testCase == 'table') {
+			var temp = new LionTableCell(tempField,format);
+			$('#testrow').append(temp.element());
+		}				
+
+	});
+});
+*/
+
+
 //general inheritance method
 function clone(object) {
 	function ObjectConstructor() {
@@ -251,143 +392,4 @@ function closeEditDiv(recordId) {
 	$('#btnNewRecord').toggle();
 }
 
-function initialize() {
-	var server = "http://lionSync.the-carlos.net:1337"
-	//=====db name here=====
-	var dbName = 'lionSyncDb';
-	//=====connect to DB=====
-	try{
-	  persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
-	  console.log("Your browser supports WebSQL.")
-	}
-	catch(e){
-	  persistence.store.memory.config(persistence);
-	  console.log("Your browser does not supports WebSQL. We are using an in-memory DB and serialzing JSON to localStorage.");
-	  try{
-	    persistence.loadFromLocalStorage(function() {
-	      console.log("Data loaded from localStorage");
-	    });
-	  }
-	  catch(e){
-	    console.log("Data *not* loaded from localStorage. There probably is no data. " + e)
-	  }
-	}
-	var Village = persistence.define('Village', {
-	name: "TEXT",
-	district: "TEXT",
-	population: "INT",
-	numBasicLatrines: "INT",
-	numImprvLatrines: "INT",
-	numFuncWPs: "INT",
-	numNonFuncWPs: "INT",
-	});
-	//Village.hasMany('id',WaterPoint,'waterpoints');
-	//Village.hasMany('id',Latrine,'latrines');
-	//Village.hasOne('id',Point,'point');
-	//Village.hasOne('id',Trad,'trad');
-	//Village.hasOne('id',District,'district');
-
-	//village has many waterpoints
-	//village has many latrines
-	//village has one point
-	//village has one trad
-	//village has one district
-
-	//sync schema
-	persistence.schemaSync();
-	Village.enableSync( server + '/sync?entity=Village');
-
-	//END CODE FROM CONFIG.JS
-
-	//update the village display table
-	updateVillageDisplay();
-	$('#editRow').append($('<button>Add Village</button>').attr('onclick','createRecord()').attr('id','btnNewRecord'));
-	
-	//var test = new Village();
-	//test.name = "Owen";
-	//persistence.add(test);
-	//persistence.flush();
-	
-	
-	//$('#displayTable').append(new VillageDisplayRow(Village,test.id).element());
-	/*
-	var test = new Latrine();
-	var type = new LatrineType();
-	type.type = "Carlos";
-	Latrine.all().prefetch('type').add(type);
-	//test.type.add(type);
-	/*Task.all().list(function(tasks){
-		tasks.forEach(function(task){
-			var v = new SanVillage(Task,task.id);
-			$('#test').append(v.element());
-		});
-	});*/
-	
-	/*
-	Latrine.all().prefetch('type').list(function(villages){
-		villages.forEach(function(village){
-			var v = new SanVillage(Village,village.id);
-			$('#test').append(v.element());
-		});
-	});
-	
-	/*
-	Village.all().count( function(cnt) {
-		if (cnt >0) {
-			Village.all().list(function(villages) {
-				villages.forEach(function(village) {
-					//var v = 
-					$('#test').append(new SanVillage(Village,village.id).element());
-				});
-			});
-			//alert(cnt);
-		}
-	});
-	
-	$('#test').attr('id','new_vilage').append($('<button>Test</button>')).click(function() {});
-	
-	*/
-	
-	
-	
-	
-	
-	
-//ignore everything below this for now
-	
-
-
-/*
-	
-	var format = new LionFormat();
-	$('#test').append($('<table></table>').attr('id','testtable').append($('<tr></tr>').attr('id','testrow')));
-	
-	testCase = 'select';
-	
-	var selectOptions = [{text:'six',value:6},{text:'seven',value:7}];
-	
-	Task.all().list(function(tasks){
-		tasks.forEach(function(task){
-			var tempField = new LionField(Task,task.id,'name');
-			if (testCase == 'select') {
-				//var temp = new LionSelect(tempField,format,selectOptions);
-				var temp = new LionSelect(tempField,format,tempField);
-				$('#test').append(temp.element());
-				$('#test').append('</br>');
-				
-			}
-			else if (testCase == 'text') {
-				var temp = new LionTextBox(tempField,format);
-				$('#test').append(temp.element());
-				$('#test').append('</br>');
-			}
-			else if (testCase == 'table') {
-				var temp = new LionTableCell(tempField,format);
-				$('#testrow').append(temp.element());
-			}				
-
-		});
-	});
-*/
-}
 
