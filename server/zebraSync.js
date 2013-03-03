@@ -99,9 +99,13 @@ app.use(express.static('../static'));
 
 app.get('/sync',  function(req, res) {
     console.log("req query is " + req.query + " and req.entity is " + req.query.entity);
+    var url_parts = url.parse(req.url, true);
+    var entity = url_parts.pathname;
+    entity = entity.match([a-zA-Z0-9]*$);
+    console.log("entiy is " + entity);
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
-        persistenceSync.pushUpdates(session, tx, req.query.entity, req.query.since, function(updates) {
+        persistenceSync.pushUpdates(session, tx, entity, req.query.since, function(updates) {
             res.header("Access-Control-Allow-Origin", "*");
             res.send(updates);
         });
