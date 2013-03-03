@@ -60,7 +60,7 @@ var session = persistenceStore.getSession();
 //   });
 // });
 // session.close();
-var entities;
+var entities new Object();
 
 session.transaction(function(tx){
   entities["Village"] = persistence.define('Village', {
