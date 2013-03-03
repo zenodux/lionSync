@@ -21,12 +21,12 @@ mime.define({
     'text/cache-manifest': ['.appcache']
 });
 
-function generateVillageDummyData(session) {
-  var d = new Date();
-  var p = new village(session, {name: "ivy city", population: "10000", numLatrines: "20", _lastChange: d.value });
-  session.add(p);
-  session.flush();
-}
+// function generateVillageDummyData(session) {
+//   var d = new Date();
+//   var p = new village(session, {name: "ivy city", population: "10000", numLatrines: "20", _lastChange: d.value });
+//   session.add(p);
+//   session.flush();
+// }
 
 // Switch off query logging:
 //persistence.db.log = false;
@@ -39,26 +39,38 @@ persistenceSync.config(persistence);
 
 //Village
 
-var village;
+//var Village;
 var session = persistenceStore.getSession();
 
+// session.transaction(function(tx){
+//   Village = persistence.define('Village', {
+//   name: "TEXT",
+//   population: "INT",
+//   numLatrines: "INT",
+//   _lastChange: "BIGINT"
+//   });
+//   session.schemaSync(tx, function(tx){ 
+//     Village.enableSync(tx, function(tx){
+//       var p = new Village(session, {name: "haswell city", population: "10000", numLatrines: "20"});
+//       session.add(p);
+//       persistence.flush(tx);
+//     });  
+//   });
+// });
+// session.close();
+
 session.transaction(function(tx){
-  village = persistence.define('village', {
-  name: "TEXT",
-  population: "INT",
-  numLatrines: "INT",
-  _lastChange: "BIGINT"
-  });
-  session.schemaSync(tx, function(tx){ 
-    village.enableSync(tx, function(tx){
-      var p = new village(session, {name: "haswell city", population: "10000", numLatrines: "20"});
-      session.add(p);
-      persistence.flush(tx);
-    });  
+  var Village = persistence.define('Village', {
+    name: "TEXT",
+    district: "TEXT",
+    population: "INT",
+    numBasicLatrines: "INT",
+    numImprvLatrines: "INT",
+    numFuncWPs: "INT",
+    numNonFuncWPs: "INT",
   });
 });
 session.close();
-
 
 //End Village
 
