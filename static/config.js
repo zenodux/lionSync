@@ -1,5 +1,6 @@
 
 //var server = "http://opendev.the-carlos.net:1337"
+var server = "http://lionSync.the-carlos.net:1337"
 
 
 //=====db name here=====
@@ -122,6 +123,7 @@ var Village = persistence.define('Village', {
 //sync schema
 
 persistence.schemaSync();
+village.enableSync( server + '/sync?entity=village');
 
 
 //OLD config.js INCLUDED BELOW
