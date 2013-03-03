@@ -9,6 +9,8 @@ var repl = require("repl");
 var mime = require('mime');
 //var mdns = require('mdns');
 
+var url = require("url");
+
 
 // Database configuration
 
@@ -102,7 +104,7 @@ app.get('/sync',  function(req, res) {
     var url_parts = url.parse(req.url, true);
     var entity = url_parts.pathname;
     entity = entity.match([a-zA-Z0-9]*$);
-    console.log("entiy is " + entity);
+    console.log("entity is " + entity);
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
         persistenceSync.pushUpdates(session, tx, entity, req.query.since, function(updates) {
