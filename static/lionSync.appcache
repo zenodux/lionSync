@@ -4,6 +4,7 @@ CACHE MANIFEST
 
 CACHE:
 index.html
+config.js
 css/lionsync.css
 css/bootstrap.css
 css/leaflet.css
