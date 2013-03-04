@@ -119,7 +119,7 @@ window.addEventListener("DOMContentLoaded", function() {
         QRdiv.setAttribute("id", "QRdiv");
         document.body.appendChild(QRdiv);
         jQuery('#QRdiv').qrcode("http://lionSync.the-carlos.net:1337");
-        initialze();
+        initialize();
 }, false);
 //end
 //initialize(); //belay that commmand, Captain! 
