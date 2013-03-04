@@ -1,16 +1,11 @@
 
-//var server = "http://opendev.the-carlos.net:1337"
-
-
+var server = "http://lionSync.the-carlos.net:1337";
 //=====db name here=====
-var dbName = 'asdf';
-
-
+var dbName = 'lionSyncDb';
 //=====connect to DB=====
-
 try{
   persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
-  console.log("Your browser supports WebSQL.")
+  console.log("Your browser supports WebSQL.");
 }
 catch(e){
   persistence.store.memory.config(persistence);
@@ -21,90 +16,18 @@ catch(e){
     });
   }
   catch(e){
-    console.log("Data *not* loaded from localStorage. There probably is no data. " + e)
+    console.log("Data *not* loaded from localStorage. There probably is no data. " + e);
   }
 }
-
-//persistence.reset();
-
-//=====create new entity model for use in this example=====
-
-//*some of the demos are running off of this task, but soon take it off
-/*var Task = persistence.define('Task', {
-  name: "TEXT",
-  description: "TEXT",
-  done: "BOOL"
-});*/
-
-//entity for district (name, population, boundaries)
-var District = persistence.define('District',{
-	name: "TEXT",
-	population:"INT",
-	boundary:"TEXT"
-});
-
-
-
-/*
-//entity for traditional authority (name, population, boundaries)
-var Trad = persistence.define('Trad',{
-	name: "TEXT",
-	population:"INT",
-	boundary:"TEXT"
-});
-
-
-
-//general entity for points
-var LatrinePoint = persistence.define('LatrinePoint',{
-	latitude: "INT",
-	longitude: "INT"
-});
-
-//general entity for points
-var WaterPointPoint = persistence.define('WaterPointPoint',{
-	latitude: "INT",
-	longitude: "INT"
-});
-
-var LatrineType = persistence.define('LatrineType', {
-	type: "TEXT"
-});
-
-var WaterPointType = persistence.define('WaterPointType', {
-	type: "TEXT",
-	designPopulation: "INT"
-})
-
-//entity for a water point
-var WaterPoint = persistence.define('WaterPoint',{
-	type: "TEXT"
-	
-});
-WaterPoint.hasOne('point',WaterPointPoint,'waterpoint');
-WaterPoint.hasOne('type',WaterPointType,'waterpoint');
-//WaterPoint has one point
-//WaterPoint has one type
-
-var Latrine = persistence.define('Latrine', {
-	type: "TEXT"
-})
-Latrine.hasOne('point',LatrinePoint,'latrine');
-Latrine.hasOne('type',LatrineType,'latrine');
-
-//Latrine has one point
-//Latrine has one type
-
-
-*/
 var Village = persistence.define('Village', {
-	name: "TEXT",
-	district: "TEXT",
-	population: "INT",
-	numBasicLatrines: "INT",
-	numImprvLatrines: "INT",
-	numFuncWPs: "INT",
-	numNonFuncWPs: "INT",
+name: "TEXT",
+district: "TEXT",
+population: "INT",
+numBasicLatrines: "INT",
+numImprvLatrines: "INT",
+numFuncWPs: "INT",
+numNonFuncWPs: "INT",
+_lastChange: "BIGINT"
 });
 //Village.hasMany('id',WaterPoint,'waterpoints');
 //Village.hasMany('id',Latrine,'latrines');
@@ -118,28 +41,48 @@ var Village = persistence.define('Village', {
 //village has one trad
 //village has one district
 
-
 //sync schema
-
 persistence.schemaSync();
+Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync/Village');
+persistence.flush();
 
+function mySuccess(){
+  console.log("sync success!");
+}
 
-//OLD config.js INCLUDED BELOW
+function myFail(){
+  console.log("sync failure!");
+}
 
-/*
-var village = persistence.define('village', {
-  name: "TEXT",
-  population: "INT",
-  numLatrines: "INT",
-  _lastChange: "DATE"
-});
-persistence.schemaSync();
-village.enableSync('http://192.168.1.15:1337/sync?entity=village');
+function myConflict(conflict){
+  console.log("sync confict! " + conflict);
+}
 
+function preferLocalConflictHandler(conflicts, updatesToPush, callback) {
+  console.log("sync confict! " + conflicts);
+  conflicts.forEach(function(conflict) {
+      var update = {id: conflict.local.id};
+      conflict.properties.forEach(function(p) {
+          update[p] = conflict.local._data[p];
+        });
+      updatesToPush.push(update);
+    });
+  callback();
+}
 
-village = persistence.define('village', {
-  name: "TEXT",
-  population: "INT",
-  numLatrines: "INT",
-  _lastChange: "BIGINT"
-  });*/
+function preferRemoteConflictHandler(conflicts, updatesToPush, callback) {
+  conflicts.forEach(function(conflicts) {
+      conflict.properties.forEach(function(p) {
+          conflict.local[p] = conflict.remote[p];
+        });
+    });
+  persistence.flush(callback);
+}
+
+function dummyConflictHandler(conflicts, updatesToPush, callback) {
+  persistence.flush(callback);
+}
+
+Village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
+
+initialize();
