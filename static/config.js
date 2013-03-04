@@ -20,14 +20,14 @@ catch(e){
   }
 }
 var Village = persistence.define('Village', {
-name: "TEXT",
-district: "TEXT",
-population: "INT",
-numBasicLatrines: "INT",
-numImprvLatrines: "INT",
-numFuncWPs: "INT",
-numNonFuncWPs: "INT",
-_lastChange: "BIGINT"
+  name: "TEXT",
+  district: "TEXT",
+  population: "INT",
+  numBasicLatrines: "INT",
+  numImprvLatrines: "INT",
+  numFuncWPs: "INT",
+  numNonFuncWPs: "INT",
+  _lastChange: "BIGINT"
 });
 //Village.hasMany('id',WaterPoint,'waterpoints');
 //Village.hasMany('id',Latrine,'latrines');
@@ -40,6 +40,14 @@ _lastChange: "BIGINT"
 //village has one point
 //village has one trad
 //village has one district
+
+//entity for district (name, population, boundaries)
+var District = persistence.define('District',{
+  name: "TEXT",
+  population:"INT",
+  boundary:"TEXT",
+  _lastChange: "BIGINT"  
+});
 
 //sync schema
 persistence.schemaSync();
