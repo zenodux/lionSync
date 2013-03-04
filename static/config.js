@@ -84,5 +84,32 @@ function dummyConflictHandler(conflicts, updatesToPush, callback) {
 }
 
 Village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
+//start
+window.addEventListener('load', function(e) {
+  window.applicationCache.addEventListener('updateready', function(e) {
+    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+      // Browser downloaded a new app cache.
+      // Swap it in and reload the page to get the new hotness.
+      window.applicationCache.swapCache();
+      window.location.reload();
+    }
+  }, false);
+}, false);
 
+window.addEventListener("DOMContentLoaded", function() {
+        // document.getElementById('villageForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+        //     console.log("villageForm fired!");
+        //     addVillage();
+        //     this.reset();
+        //     document.getElementById('villageName').focus();
+        //     return false;
+        // });
+
+        var QRdiv = document.createElement("div");
+        QRdiv.setAttribute("id", "QRdiv");
+        document.body.appendChild(QRdiv);
+        jQuery('#QRdiv').qrcode("http://lionSync.the-carlos.net:1337");
+}, false);
+//end
 initialize();
