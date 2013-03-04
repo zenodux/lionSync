@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#version 1
+#version 2
 
 CACHE:
 index.html
@@ -27,6 +27,9 @@ js/images/alex_marty.jpg
 
 
 NETWORK:
+http://lionsync.the-carlos.net:1337
+http://lionsync.the-carlos.net:1337/sync/Village
+http://lionsync.the-carlos.net:1337/sync/District
 
 
 FALLBACK:
