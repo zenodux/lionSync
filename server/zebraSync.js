@@ -121,7 +121,12 @@ app.get('/sync/*',  function(req, res) {
     });
 });
 
-app.post('/sync',  function(req, res) {
+app.post('/sync/*',  function(req, res) {
+    var url_parts = url.parse(req.url, true);
+    var entity = url_parts.pathname;
+    entity = entity.match("[a-zA-Z0-9]*$");
+    console.log("entity is " + entity);
+
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
         //console.log('updates (req.body): ' + req);
@@ -130,7 +135,7 @@ app.post('/sync',  function(req, res) {
         //     input: process.stdin,
         //     output: process.stdout
         // }).context.req=req;
-        persistenceSync.receiveUpdates(session, tx, req.query.entity, req.body, function(result) {
+        persistenceSync.receiveUpdates(session, tx, entities[entity], req.body, function(result) {
             res.header("Access-Control-Allow-Origin", "*");
             res.send(result);
         });
@@ -146,6 +151,6 @@ app.listen(1337);
 //var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
 //ad.start();
 
-console.log('zebraSync Server running at http://127.0.0.1:1337/');
+console.log('lionSync Server running at http://lionSync.the-carlos.net:1337/');
 //console.log(app.routes);
 //console.log(app.routes.get[0].callbacks[0]);
