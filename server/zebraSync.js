@@ -16,7 +16,7 @@ var url = require("url");
 
 
 var dbPath = './sqlite_zebraSync.db';
-console.log(dbPath);
+//console.log(dbPath);
 persistenceStore.config(persistence, dbPath);
 
 mime.define({
@@ -73,8 +73,17 @@ session.transaction(function(tx){
     numNonFuncWPs: "INT",
     _lastChange: "BIGINT"
   });
+  var District = persistence.define('District',{
+    name: "TEXT",
+    population:"INT",
+    boundary:"TEXT",
+    _lastChange: "BIGINT"  
+  });
   session.schemaSync(tx, function(tx){ 
     entities["Village"].enableSync(tx, function(tx){
+      persistence.flush(tx);
+    });  
+    entities["District"].enableSync(tx, function(tx){
       persistence.flush(tx);
     });  
   });  
