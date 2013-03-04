@@ -38,6 +38,7 @@ numBasicLatrines: "INT",
 numImprvLatrines: "INT",
 numFuncWPs: "INT",
 numNonFuncWPs: "INT",
+_lastChange: "BIGINT"
 });
 //Village.hasMany('id',WaterPoint,'waterpoints');
 //Village.hasMany('id',Latrine,'latrines');

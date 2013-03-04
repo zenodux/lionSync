@@ -71,6 +71,7 @@ session.transaction(function(tx){
     numImprvLatrines: "INT",
     numFuncWPs: "INT",
     numNonFuncWPs: "INT",
+    _lastChange: "BIGINT"
   });
   session.schemaSync(tx, function(tx){ 
     entities["Village"].enableSync(tx, function(tx){
