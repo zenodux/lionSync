@@ -73,7 +73,7 @@ session.transaction(function(tx){
     numNonFuncWPs: "INT",
     _lastChange: "BIGINT"
   });
-  var District = persistence.define('District',{
+  entities["District"] = persistence.define('District',{
     name: "TEXT",
     population:"INT",
     boundary:"TEXT",
