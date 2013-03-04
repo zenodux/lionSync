@@ -72,6 +72,11 @@ session.transaction(function(tx){
     numFuncWPs: "INT",
     numNonFuncWPs: "INT",
   });
+  session.schemaSync(tx, function(tx){ 
+    entities["Village"].enableSync(tx, function(tx){
+      persistence.flush(tx);
+    });  
+  });  
 });
 session.close();
 
