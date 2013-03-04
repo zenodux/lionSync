@@ -115,9 +115,9 @@ window.addEventListener("DOMContentLoaded", function() {
         //     return false;
         // });
 
-        var QRdiv = document.createElement("div");
-        QRdiv.setAttribute("id", "QRdiv");
-        document.body.appendChild(QRdiv);
+        // var QRdiv = document.createElement("div");
+        // QRdiv.setAttribute("id", "QRdiv");
+        // document.body.appendChild(QRdiv);
         jQuery('#QRdiv').qrcode("http://lionSync.the-carlos.net:1337");
         initialize();
 }, false);
