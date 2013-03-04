@@ -1,10 +1,9 @@
 
 //var server = "http://opendev.the-carlos.net:1337"
-var server = "http://lionSync.the-carlos.net:1337"
 
 
 //=====db name here=====
-var dbName = 'lionSyncDb';
+var dbName = 'asdf';
 
 
 //=====connect to DB=====
@@ -26,7 +25,7 @@ catch(e){
   }
 }
 
-
+//persistence.reset();
 
 //=====create new entity model for use in this example=====
 
@@ -38,12 +37,12 @@ catch(e){
 });*/
 
 //entity for district (name, population, boundaries)
-/*var District = persistence.define('District',{
+var District = persistence.define('District',{
 	name: "TEXT",
 	population:"INT",
 	boundary:"TEXT"
 });
-*/
+
 
 
 /*
@@ -123,7 +122,6 @@ var Village = persistence.define('Village', {
 //sync schema
 
 persistence.schemaSync();
-Village.enableSync( server + '/sync?entity=Village');
 
 
 //OLD config.js INCLUDED BELOW

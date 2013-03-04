@@ -8,188 +8,6 @@
 	// - replace style with class
 	// - set up an object to contain and create a bunch of UI elements in a div
 
-
-
-var server = "http://lionSync.the-carlos.net:1337";
-//=====db name here=====
-var dbName = 'lionSyncDb';
-//=====connect to DB=====
-try{
-  persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
-  console.log("Your browser supports WebSQL.");
-}
-catch(e){
-  persistence.store.memory.config(persistence);
-  console.log("Your browser does not supports WebSQL. We are using an in-memory DB and serialzing JSON to localStorage.");
-  try{
-    persistence.loadFromLocalStorage(function() {
-      console.log("Data loaded from localStorage");
-    });
-  }
-  catch(e){
-    console.log("Data *not* loaded from localStorage. There probably is no data. " + e);
-  }
-}
-var Village = persistence.define('Village', {
-name: "TEXT",
-district: "TEXT",
-population: "INT",
-numBasicLatrines: "INT",
-numImprvLatrines: "INT",
-numFuncWPs: "INT",
-numNonFuncWPs: "INT",
-_lastChange: "BIGINT"
-});
-//Village.hasMany('id',WaterPoint,'waterpoints');
-//Village.hasMany('id',Latrine,'latrines');
-//Village.hasOne('id',Point,'point');
-//Village.hasOne('id',Trad,'trad');
-//Village.hasOne('id',District,'district');
-
-//village has many waterpoints
-//village has many latrines
-//village has one point
-//village has one trad
-//village has one district
-
-//sync schema
-persistence.schemaSync();
-Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync/Village');
-persistence.flush();
-
-function mySuccess(){
-  console.log("sync success!");
-}
-
-function myFail(){
-  console.log("sync failure!");
-}
-
-function myConflict(conflict){
-  console.log("sync confict! " + conflict);
-}
-
-function preferLocalConflictHandler(conflicts, updatesToPush, callback) {
-  console.log("sync confict! " + conflicts);
-  conflicts.forEach(function(conflict) {
-      var update = {id: conflict.local.id};
-      conflict.properties.forEach(function(p) {
-          update[p] = conflict.local._data[p];
-        });
-      updatesToPush.push(update);
-    });
-  callback();
-}
-
-function preferRemoteConflictHandler(conflicts, updatesToPush, callback) {
-  conflicts.forEach(function(conflicts) {
-      conflict.properties.forEach(function(p) {
-          conflict.local[p] = conflict.remote[p];
-        });
-    });
-  persistence.flush(callback);
-}
-
-function dummyConflictHandler(conflicts, updatesToPush, callback) {
-  persistence.flush(callback);
-}
-
-Village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
-
-//END CODE FROM CONFIG.JS
-
-//update the village display table
-updateVillageDisplay();
-$('#editRow').append($('<button>Add Village</button>').attr('onclick','createRecord()').attr('id','btnNewRecord'));
-
-//var test = new Village();
-//test.name = "Owen";
-//persistence.add(test);
-//persistence.flush();
-
-
-//$('#displayTable').append(new VillageDisplayRow(Village,test.id).element());
-/*
-var test = new Latrine();
-var type = new LatrineType();
-type.type = "Carlos";
-Latrine.all().prefetch('type').add(type);
-//test.type.add(type);
-/*Task.all().list(function(tasks){
-	tasks.forEach(function(task){
-		var v = new SanVillage(Task,task.id);
-		$('#test').append(v.element());
-	});
-});*/
-
-/*
-Latrine.all().prefetch('type').list(function(villages){
-	villages.forEach(function(village){
-		var v = new SanVillage(Village,village.id);
-		$('#test').append(v.element());
-	});
-});
-
-/*
-Village.all().count( function(cnt) {
-	if (cnt >0) {
-		Village.all().list(function(villages) {
-			villages.forEach(function(village) {
-				//var v = 
-				$('#test').append(new SanVillage(Village,village.id).element());
-			});
-		});
-		//alert(cnt);
-	}
-});
-
-$('#test').attr('id','new_vilage').append($('<button>Test</button>')).click(function() {});
-
-*/
-
-
-
-
-
-
-//ignore everything below this for now
-
-
-
-/*
-
-var format = new LionFormat();
-$('#test').append($('<table></table>').attr('id','testtable').append($('<tr></tr>').attr('id','testrow')));
-
-testCase = 'select';
-
-var selectOptions = [{text:'six',value:6},{text:'seven',value:7}];
-
-Task.all().list(function(tasks){
-	tasks.forEach(function(task){
-		var tempField = new LionField(Task,task.id,'name');
-		if (testCase == 'select') {
-			//var temp = new LionSelect(tempField,format,selectOptions);
-			var temp = new LionSelect(tempField,format,tempField);
-			$('#test').append(temp.element());
-			$('#test').append('</br>');
-			
-		}
-		else if (testCase == 'text') {
-			var temp = new LionTextBox(tempField,format);
-			$('#test').append(temp.element());
-			$('#test').append('</br>');
-		}
-		else if (testCase == 'table') {
-			var temp = new LionTableCell(tempField,format);
-			$('#testrow').append(temp.element());
-		}				
-
-	});
-});
-*/
-
-
 //general inheritance method
 function clone(object) {
 	function ObjectConstructor() {
@@ -262,7 +80,7 @@ function LionSelect(lionfield,lionformat,liondomain) {
 	if (liondomain instanceof Array) {
 		for (o in liondomain) {
 			this.rootElement.append(
-				$('<option></option>').html(liondomain[o].text).attr('value',liondomain[o].value)
+				$('<option></option>').html(liondomain[o].text).attr('value',liondomain[o].text) //value used to be .value
 			);
 		}
 	}
@@ -280,7 +98,7 @@ function LionSelect(lionfield,lionformat,liondomain) {
 				for (l in list) {
 					$('#'+lionfield.elementId).append(
 						
-						$('<option></option>').html(list[l][fieldname]).attr('value',list[l].id)
+						$('<option></option>').html(list[l][fieldname]).attr('value',list[l].fieldname)
 					)
 				}
 				$('#'+lionfield.elementId).hide();
@@ -355,10 +173,13 @@ function VillageDisplayRow(persistenceEntity,recordId) {
 	var fields = ['name','district','population','numBasicLatrines','numImprvLatrines','numFuncWPs','numNonFuncWPs'];
 	var tableRow = $('<tr></tr>').attr('id',recordId + '-div');
 	for (f in fields) {
-		fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
-		tableRow.append(new LionTableCell(fields[f],new LionFormat()).element());
+		if (typeof fields[f] == 'string') {
+			fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
+			tableRow.append(new LionTableCell(fields[f],new LionFormat()).element());
+		}
 	}
 	tableRow.append($('<td></td>').append($('<button>Edit</button>').attr('id',recordId).attr('onclick','editRecord(this.id)')));
+	tableRow.append($('<td></td>').append($('<button>x</button>').attr('id',recordId).attr('onclick','deleteRecord(this.id)')));
 	//resettin'g root element, rather than appending, so it returns a row, not a div
 	this.rootElement = tableRow;
 	
@@ -373,15 +194,24 @@ function VillageEditDiv(persistenceEntity,recordId) {
 	this.rootElement.attr('class','row-fluid');
 	
 	var fields = ['name','district','population','numBasicLatrines','numImprvLatrines','numFuncWPs','numNonFuncWPs'];
-	
+	var labels = ['Village Name','District','Village Population','Number of Basic Latrines','Number of Improved Latrines', 'Number of Functioning Water Points','Number of Broken Water Points'];
+	this.rootElement.append('<h3>Add New Village</h3>');
 	for (f in fields) {
-		this.rootElement.append('<p>'+fields[f]+'<p>')
-		fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
-		
-		this.rootElement.append(new LionTextBox(fields[f],new LionFormat()).element());
+		if (typeof fields[f] == 'string') {
+			this.rootElement.append('<p>'+labels[f]+'<p>')
+			if (fields[f] == 'district') {
+				fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
+				var tempDomain = new LionField(District,'','name');
+				this.rootElement.append(new LionSelect(fields[f],new LionFormat(),tempDomain).element());
+			}
+			else {
+				fields[f] = new LionField(persistenceEntity,recordId,fields[f]);
+				this.rootElement.append(new LionTextBox(fields[f],new LionFormat()).element());
+			}
+		}
 	}
 	this.rootElement.append('</br>');
-	this.rootElement.append($('<button>Done Editing</button>').attr('id',recordId).attr('onclick','closeEditDiv(this.id)'))
+	this.rootElement.append($('<button>Done</button>').attr('id',recordId).attr('onclick','closeEditDiv(this.id)')) //attr('onclick','closeEditDiv(this.id)'))
 	
 	
 }
@@ -389,18 +219,9 @@ VillageDisplayRow.prototype = clone(LionDiv.prototype);
 VillageDisplayRow.prototype.constructor = VillageDisplayRow.prototype;
 
 
-//EXAMPLE IMPLEMENTATION
-//
 
 
 
-
-//create a dummy record
-
-//persistence.add(test);
-//persistence.flush();
-
-//function creates 
 
 function updateVillageDisplay() {
 
@@ -414,8 +235,19 @@ function updateVillageDisplay() {
 
 function editRecord(recordId) {
 	$('#'+recordId+'-div').remove();
-	$('#editRow').append(new VillageEditDiv(Village,recordId).element());
+	$('button').attr('disabled','disabled');
+	//$('#editRow').append(new VillageEditDiv(Village,recordId).element());
+	$('#testas').append(new VillageEditDiv(Village,recordId).element());
+	$('#inputPopup').show();
 	$('#btnNewRecord').toggle();
+}
+
+function deleteRecord(recordId) {
+	$('#'+recordId+'-div').remove();
+	Village.load(recordId,function(village) {
+		persistence.remove(village);
+		persistence.flush();
+	});
 }
 
 function createRecord() {
@@ -429,8 +261,61 @@ function createRecord() {
 
 function closeEditDiv(recordId) {
 	$('#' + recordId + "-div").remove();
+	$('#inputPopup').hide();
+	//Popup.objects[0].hide();
 	$('#displayTable').append(new VillageDisplayRow(Village,recordId).element());
 	$('#btnNewRecord').toggle();
+	$('button').removeAttr('disabled');
 }
 
+function showPage(page) {
+	if (page == 'data') {
+		hidePages();
+		$('#dataPage').show();
+		$('#dataLink').attr('class','active');
+		
+		
+		
+	}
+	else if (page=='dashboard') {
+		hidePages();
+		$('#dashboardPage').show();
+		$('#dashboardLink').attr('class','active');
+		addDistrictsToMap();
+		//zoomMapToExtent()
+	
+	}
+	else if (page=='about') {
+		hidePages();
+		$('#aboutPage').show();
+		$('#aboutLink').attr('class','active');
+	
+	}
+	
+}
+
+function hidePages() {
+	$('#dashboardPage').hide();
+	$('#dataPage').hide();
+	$('#aboutPage').hide();
+	$('#dataLink').attr('class','');
+	$('#dashboardLink').attr('class','');
+	$('#aboutLink').attr('class','');
+	
+}
+
+function initialize() {
+	
+	//add button to data page
+	$('#editRow').append($('<button>Add Village</button>').attr('onclick','createRecord()').attr('id','btnNewRecord'));
+	//$('#editRow').append($('<a rel="facybox">Add Village</a>').attr('href','#testas').attr('id','btnNewRecord'));
+	//$('#testas')
+	//add data to data table
+	updateVillageDisplay();
+	//create leaflet map
+	createLeafletMap('mapDiv');
+	//update the village display table
+	showPage('data');
+
+}
 

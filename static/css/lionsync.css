@@ -1,0 +1,11 @@
+.popup {
+	display:none;
+	position:fixed;
+	background-color:white;
+	border:2px solid black;
+	width:500px;
+	margin-left:-150px;
+	padding:10px;
+	left:30%;
+	top:20%;
+}
