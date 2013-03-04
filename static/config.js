@@ -52,6 +52,7 @@ var District = persistence.define('District',{
 //sync schema
 persistence.schemaSync();
 Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync/Village');
+District.enableSync( 'http://lionSync.the-carlos.net:1337/sync/District');
 persistence.flush();
 
 function mySuccess(){
