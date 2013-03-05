@@ -32,3 +32,5 @@ persistence.js (sync)<br>
 d3js (visualizations) [soon]<br>
 QR code (quick nav for smartphones)<br>
 websocket (p2p communication) [soon]<br>
+
+All code in this repository is copyright 2012-2013 Carlos T. Linares & Owen Scott.  All rights reserved. We plan to release our code under an open source license, probably GPL v3.
