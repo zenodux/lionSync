@@ -1,3 +1,6 @@
+//Copyright 2012-2013 Carlos T. Linares & Owen Scott.  All rights reserved.  
+//We plan to release our code under an open source license, probably GPL v3.
+
 var sys = require('sys');
 var express = require('express');
 
