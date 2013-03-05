@@ -1,4 +1,4 @@
-lionSync (zebraSync)
+lionSync
 ========
 
 HTML5 offline p2p syncing
