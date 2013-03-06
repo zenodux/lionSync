@@ -119,11 +119,11 @@ app.use(express.static('../static'));
 
 
 app.get('/sync/*',  function(req, res) {
-    console.log("req query is " + req.query + " and req.entity is " + req.query.entity);
+    //console.log("req query is " + req.query + " and req.entity is " + req.query.entity);
     var url_parts = url.parse(req.url, true);
     var entity = url_parts.pathname;
     entity = entity.match("[a-zA-Z0-9]*$");
-    console.log("entity is " + entity);
+    console.log("GET entity is " + entity + " and ip is " + req.ip);
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
         persistenceSync.pushUpdates(session, tx, entities[entity], req.query.since, function(updates) {
@@ -137,7 +137,7 @@ app.post('/sync/*',  function(req, res) {
     var url_parts = url.parse(req.url, true);
     var entity = url_parts.pathname;
     entity = entity.match("[a-zA-Z0-9]*$");
-    console.log("entity is " + entity);
+    console.log("POST entity is " + entity);
 
     var session = persistenceStore.getSession();
     session.transaction(function(tx){
