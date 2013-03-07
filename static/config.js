@@ -1,7 +1,7 @@
 
 var server = "http://lionSync.the-carlos.net:1337";
 //=====db name here=====
-var dbName = 'lionSyncDb';
+var dbName = 'newLionSyncDb';
 //=====connect to DB=====
 try{
   persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
@@ -92,7 +92,65 @@ function dummyConflictHandler(conflicts, updatesToPush, callback) {
   persistence.flush(callback);
 }
 
-Village.syncAll(preferLocalConflictHandler, mySuccess, myFail );
+
+
+
+//NEW SYNCING CODE
+
+function districtSyncSuccess() {
+	
+	console.log('Successfully synced district with server.');
+	document.districtSynced = true;
+	if (document.dSynced == true && document.districtSynced == true) {
+		updateSyncStatus('finished');
+		localStorage.syncedOnce = true;
+	}
+}
+
+function villageSyncSuccess() {
+	
+	console.log('Successfully synced village with server.');
+	document.villageSynced = true;
+	if (document.villageSynced == true && document.districtSynced == true) {
+		updateSyncStatus('finished');
+		localStorage.syncedOnce = true;
+	}
+}
+
+function syncFailure() {
+	//check if LIONSync has ever been synced
+	if (localStorage.syncedOnce == true) {
+		//update icon on data page to show it's done syncing
+		updateSyncStatus('failed');
+	}
+	else {
+		updateSyncStatus('failed');
+		showPage('syncFailure');
+		console.log('Failed to sync with server and no local resources.');
+	}
+}
+
+function syncVillage() {
+	document.villageSynced = false;
+	updateSyncStatus('started');
+	Village.syncAll(preferLocalConflictHandler, villageSyncSuccess, syncFailure );
+}
+	
+function syncDistrict() {
+	document.districtSynced = false;
+	updateSyncStatus('started');
+	District.syncAll(preferLocalConflictHandler,districtSyncSuccess,syncFailure);
+}
+
+
+
+
+
+//
+
+
+
+
 //start
 window.addEventListener('load', function(e) {
   window.applicationCache.addEventListener('updateready', function(e) {
@@ -105,7 +163,13 @@ window.addEventListener('load', function(e) {
   }, false);
 }, false);
 
-window.addEventListener("DOMContentLoaded", function() {
+
+
+
+
+
+
+/*window.addEventListener("DOMContentLoaded", function() {
         // document.getElementById('villageForm').addEventListener('submit', function(e) {
         //     e.preventDefault();
         //     console.log("villageForm fired!");
@@ -120,6 +184,6 @@ window.addEventListener("DOMContentLoaded", function() {
         // document.body.appendChild(QRdiv);
         jQuery('#QRdiv').qrcode("http://lionSync.the-carlos.net:1337");
         initialize();
-}, false);
+}, false);*/
 //end
 //initialize(); //belay that commmand, Captain! 
