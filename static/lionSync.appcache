@@ -26,6 +26,7 @@ js/mapping.js
 
 pages/data.js
 pages/dashboard.js
+pages/about.js
 
 js/jquery.qrcode.min.js
 js/images/alex_marty.jpg
