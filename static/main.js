@@ -27,6 +27,7 @@ function showPage(page) {
 	}
 	else if (page=='about') {
 		//SHOW ABOUT
+		displayAboutPage();
 		$('#aboutLink').attr('class','active');
 	
 	}
@@ -35,7 +36,7 @@ function showPage(page) {
 			//$('a').attr('onclick','');
 	}
 	else if (page=='firstSync') {
-		$('#contentDiv').append('<div class=""><h4>Welcome to LIONSync</h4><p>Since this is your first time visiting, some content (~4mb) will need to be downloaded before you can begin. This may take a few minutes.</p></div>');
+		$('#contentDiv').append('<div class=""><p>In order to run, LionSync needs to download some data from the server. This may take a few moments. Feel free to explore the tabs ("Data", "Dashboard", and "About"), but everything may not work perfectly until your first sync is complete (we are still beta!). Check the top righthand corner for your status. If it says "Sync Failed", please do not worry - that just means you are offline, but lionsync is designed to work offline!</p></div>');
 		//$('a').attr('onclick','');
 		//$('#contentDiv').append('<p>Downloading content...</p><img src="img/ajax-loader.gif"/>');
 	}
@@ -78,6 +79,7 @@ function updateSyncStatus(status) {
 	else if (status == 'failed') {
 		$('#syncStatus').append($('<p>Sync failed.</p>'));
 	}
+
 
 }
 

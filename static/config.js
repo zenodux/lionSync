@@ -101,9 +101,10 @@ function districtSyncSuccess() {
 	
 	console.log('Successfully synced district with server.');
 	document.districtSynced = true;
-	if (document.dSynced == true && document.districtSynced == true) {
+	if (document.villageSynced == true && document.districtSynced == true) {
 		updateSyncStatus('finished');
 		localStorage.syncedOnce = true;
+		document.firstSync = true;
 	}
 }
 
@@ -114,6 +115,7 @@ function villageSyncSuccess() {
 	if (document.villageSynced == true && document.districtSynced == true) {
 		updateSyncStatus('finished');
 		localStorage.syncedOnce = true;
+		document.firstSync = true;
 	}
 }
 
