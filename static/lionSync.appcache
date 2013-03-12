@@ -4,24 +4,29 @@ CACHE MANIFEST
 
 CACHE:
 index.html
-config.js
+
 css/lionsync.css
 css/bootstrap.css
 css/leaflet.css
-css/facybox.css
+
 js/jquery.js
 js/leaflet.js
 js/bootstrap.js
+
 js/persistence.js
 js/persistence.store.memory.js
 js/persistence.store.sql.js
 js/persistence.store.websql.js
 js/persistence.sync.js
-js/facybox.js
-js/mapping.js
-geography.js
+
+config.js
+js/lion.js
 main.js
-js/popup.js
+js/mapping.js
+
+pages/data.js
+pages/dashboard.js
+
 js/jquery.qrcode.min.js
 js/images/alex_marty.jpg
 
