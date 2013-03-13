@@ -1,5 +1,8 @@
 //Copyright 2012-2013 Carlos T. Linares & Owen Scott.  All rights reserved.  
 //We plan to release our code under an open source license, probably GPL v3.
+var repl = require("repl");
+
+var port = process.argv[2];
 
 var sys = require('sys');
 var express = require('express');
@@ -8,7 +11,7 @@ var persistence = require('persistencejs/persistence').persistence;
 var persistenceStore = require('persistencejs/persistence.store.sqlite3');
 var persistenceSync = require('persistencejs/persistence.sync.server');
 
-var repl = require("repl");
+//var repl = require("repl");
 var mime = require('mime');
 //var mdns = require('mdns');
 
@@ -157,12 +160,12 @@ app.post('/sync/*',  function(req, res) {
 
 
 
-app.listen(1337);
+app.listen(port);
 
 // advertise a http server on port 1337
 //var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
 //ad.start();
 
-console.log('lionSync Server running at http://lionSync.the-carlos.net:1337/');
+console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port);
 //console.log(app.routes);
 //console.log(app.routes.get[0].callbacks[0]);
