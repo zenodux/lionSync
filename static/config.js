@@ -1,5 +1,5 @@
-
-var server = "http://lionSync.the-carlos.net:1337";
+var port = 80;
+var server = "http://lionSync.the-carlos.net:" + port;
 //=====db name here=====
 var dbName = 'newLionSyncDb';
 //=====connect to DB=====
@@ -51,8 +51,8 @@ var District = persistence.define('District',{
 
 //sync schema
 persistence.schemaSync();
-Village.enableSync( 'http://lionSync.the-carlos.net:1337/sync/Village');
-District.enableSync( 'http://lionSync.the-carlos.net:1337/sync/District');
+Village.enableSync( 'http://lionSync.the-carlos.net:' + port + '/sync/Village');
+District.enableSync( 'http://lionSync.the-carlos.net:' + port + '/sync/District');
 persistence.flush();
 
 function mySuccess(){
@@ -184,7 +184,7 @@ window.addEventListener('load', function(e) {
         // var QRdiv = document.createElement("div");
         // QRdiv.setAttribute("id", "QRdiv");
         // document.body.appendChild(QRdiv);
-        jQuery('#QRdiv').qrcode("http://lionSync.the-carlos.net:1337");
+        jQuery('#QRdiv').qrcode("http://lionSync.the-carlos.net:" + port);
         initialize();
 }, false);*/
 //end
