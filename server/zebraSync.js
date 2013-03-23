@@ -4,6 +4,9 @@ var repl = require("repl");
 
 var port = process.argv[2];
 
+var nodeUserGid = "ec2-user";
+var nodeUserUid = "ec2-user";
+ 
 var sys = require('sys');
 var express = require('express');
 
@@ -157,10 +160,12 @@ app.post('/sync/*',  function(req, res) {
     });
 });
 
+app.listen(port, function() {
+  process.setgid(nodeUserGid);
+  process.setuid(nodeUserUid);
+});
 
-
-
-app.listen(port);
+//app.listen(port);
 
 // advertise a http server on port 1337
 //var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
