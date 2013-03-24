@@ -33,9 +33,9 @@ js/images/alex_marty.jpg
 
 
 NETWORK:
-http://lionsync.the-carlos.net:1337
-http://lionsync.the-carlos.net:1337/sync/Village
-http://lionsync.the-carlos.net:1337/sync/District
+http://lionsync.the-carlos.net
+http://lionsync.the-carlos.net/sync/Village
+http://lionsync.the-carlos.net/sync/District
 
 
 FALLBACK:
