@@ -19,7 +19,7 @@ function displayAboutPage() {
 	aboutDiv.append($('<ul>'));
 	aboutDiv.append($('<li>The World Bank <a href="http://www.sanitationhackathon.org/stories/world-bank-announces-sanitation-hackathon-app-challenge-finalists">announces</a> LIONSync is one of ten finalists in the Sanitation App Challenge!</li>'));
 	aboutDiv.append($('</ul>'));
-	aboutDiv.append($('<h3>Follow Us On Twitter!</h3>'));
+	aboutDiv.append($('<h3>Follow Us on Twitter!</h3>'));
 	aboutDiv.append($('<p>#lionsync #sanhack'));
 	aboutDiv.append($('<h3>Comments or Feedback</h3>'));
 	aboutDiv.append($("<p>Please send any comments or feedback to owen.m.scott [at] gmail.com or zenodux [at] gmail.com. Thanks!</p>"));
