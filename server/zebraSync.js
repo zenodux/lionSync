@@ -161,16 +161,6 @@ app.post('/sync/*',  function(req, res) {
 });
 
 app.listen(port, function() {
-  if (process.getuid && process.setuid) {
-    console.log('Current uid: ' + process.getuid());
-    try {
-      process.setuid(nodeUserUid);
-      console.log('New uid: ' + process.getuid());
-    }
-    catch (err) {
-      console.log('Failed to set uid: ' + err);
-    }
-  }
   if (process.getgid && process.setgid) {
     console.log('Current gid: ' + process.getgid());
     try {
@@ -179,6 +169,16 @@ app.listen(port, function() {
     }
     catch (err) {
       console.log('Failed to set gid: ' + err);
+    }
+  }
+  if (process.getuid && process.setuid) {
+    console.log('Current uid: ' + process.getuid());
+    try {
+      process.setuid(nodeUserUid);
+      console.log('New uid: ' + process.getuid());
+    }
+    catch (err) {
+      console.log('Failed to set uid: ' + err);
     }
   }
   console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port +' with uid:' + process.getgid() +' and gid:' + process.getgid());
