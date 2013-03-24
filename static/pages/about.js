@@ -21,6 +21,8 @@ function displayAboutPage() {
 	aboutDiv.append($('</ul>'));
 	aboutDiv.append($('<h3>Follow Us on Twitter!</h3>'));
 	aboutDiv.append($('<p><a href="https://twitter.com/search?q=%23lionsync">#lionsync</a> <a href="https://twitter.com/search?q=%23sanhack">#sanhack</a></p>'));
+	aboutDiv.append($('<a class="twitter-timeline" href="https://twitter.com/twitterapi" data-widget-id="315823994932707328">Tweets by @twitterapi</a>')); 
+	aboutDiv.append($('<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>'));	
 	aboutDiv.append($('<h3>Comments or Feedback</h3>'));
 	aboutDiv.append($("<p>Please send any comments or feedback to owen.m.scott [at] gmail.com or zenodux [at] gmail.com. Thanks!</p>"));
 	contentDiv.append($('<div></div>').addClass('row-fluid').append(aboutDiv));
