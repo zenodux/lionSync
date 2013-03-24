@@ -4,7 +4,7 @@ var repl = require("repl");
 
 var port = process.argv[2];
 
-var nodeUserGid = "ec2-user";
+var nodeUserGid = "EC2";
 var nodeUserUid = "ec2-user";
  
 var sys = require('sys');
@@ -161,16 +161,35 @@ app.post('/sync/*',  function(req, res) {
 });
 
 app.listen(port, function() {
-  process.setgid(nodeUserGid);
-  process.setuid(nodeUserUid);
+  if (process.getuid && process.setuid) {
+    console.log('Current uid: ' + process.getuid());
+    try {
+      process.setuid(nodeUserUid);
+      console.log('New uid: ' + process.getuid());
+    }
+    catch (err) {
+      console.log('Failed to set uid: ' + err);
+    }
+  }
+  if (process.getgid && process.setgid) {
+    console.log('Current gid: ' + process.getgid());
+    try {
+      process.setgid(nodeUserGid);
+      console.log('New gid: ' + process.getgid());
+    }
+    catch (err) {
+      console.log('Failed to set gid: ' + err);
+    }
+  }
+  console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port +' with uid:' + process.getgid() +' and gid:' + process.getgid());
 });
 
-//app.listen(port);
+
 
 // advertise a http server on port 1337
 //var ad = mdns.createAdvertisement(mdns.tcp('http'), 1337, {name: 'zebraSync'});
 //ad.start();
 
-console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port);
+//console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port);
 //console.log(app.routes);
 //console.log(app.routes.get[0].callbacks[0]);
