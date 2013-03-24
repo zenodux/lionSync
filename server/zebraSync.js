@@ -4,7 +4,7 @@ var repl = require("repl");
 
 var port = process.argv[2];
 
-var nodeUserGid = "EC2";
+var nodeUserGid = "ec2-user";
 var nodeUserUid = "ec2-user";
  
 var sys = require('sys');
