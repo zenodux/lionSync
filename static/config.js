@@ -3,6 +3,7 @@ var server = "http://lionSync.the-carlos.net:" + port;
 //=====db name here=====
 var dbName = 'newLionSyncDb';
 //=====connect to DB=====
+
 try{
   persistence.store.websql.config(persistence, dbName, 'Lion Local DB', 5 * 1024 * 1024);
   console.log("Your browser supports WebSQL.");
@@ -13,6 +14,17 @@ catch(e){
   try{
     persistence.loadFromLocalStorage(function() {
       console.log("Data loaded from localStorage");
+      
+      persistence.flushHooks = 
+        persistence.saveToLocalStorage(function() {
+          console.log("saved flush to localStorage.");
+        });
+
+      persistence.schemaSyncHooks = 
+        persistence.saveToLocalStorage(function() {
+          console.log("saved schemaSync to localStorage.");
+        });      
+
     });
   }
   catch(e){

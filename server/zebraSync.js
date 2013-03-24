@@ -181,7 +181,7 @@ app.listen(port, function() {
       console.log('Failed to set uid: ' + err);
     }
   }
-  console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port +' with uid:' + process.getgid() +' and gid:' + process.getgid());
+  console.log('lionSync Server running at http://lionSync.the-carlos.net:' + port +' with uid:' + process.getuid() +' and gid:' + process.getgid());
 });
 
 
